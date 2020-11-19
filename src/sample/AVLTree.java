@@ -161,17 +161,18 @@ public class AVLTree {
         return node;
     }
 
-    public AVLTreeNode insert(AVLTreeNode node, int key, Pane pane) {
+    public AVLTreeNode insert(AVLTreeNode node, int key, Pane center) {
 
         if (node == null) {
             return new AVLTreeNode(key);
         }
         if(node.data < 0){
             node.data = key;
+
         } else if (key < node.data) {
-            node.left = insert(node.left, key,pane);
+            node.left = insert(node.left, key,center);
         } else if (key > node.data) {
-            node.right = insert(node.right, key,pane);
+            node.right = insert(node.right, key,center);
         } else {
             return node;
         }
@@ -197,8 +198,9 @@ public class AVLTree {
         return node;
     }
 
-    public void insert(int key,Pane pane) {
-        root = insert(this.root, key,pane);
+    public void insert(int key,Pane center) {
+        root = insert(this.root, key,center);
+        center.getChildren().addAll(this.root.circle);
         return;
     }
 
@@ -248,9 +250,9 @@ public class AVLTree {
         int data;
         AVLTreeNode left;
         AVLTreeNode right;
-        float x;
-        float y;
-        Circle circle = new Circle(20,Color.WHITE);
+        float x = 600;
+        float y = 60;
+        Circle circle = new Circle(x,y,20,Color.WHITE);
         Line line = new Line();
         Label value = new Label();
         int height;

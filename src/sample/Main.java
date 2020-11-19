@@ -45,6 +45,9 @@ public class Main extends Application {
 
         //Center
         Pane center = new Pane();
+        BackgroundFill cFill = new BackgroundFill(Color.WHEAT, CornerRadii.EMPTY,Insets.EMPTY);
+        Background cbackground = new Background(cFill);
+        center.setBackground(cbackground);
         bPane.setCenter(center);
 
 
@@ -88,7 +91,7 @@ public class Main extends Application {
 
 
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(bPane,800,600);
+        Scene scene = new Scene(bPane,1200,800);
         stage.setScene(scene);
         stage.show();
     }
