@@ -8,9 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -22,6 +21,9 @@ public class Main extends Application {
         HBox hbox2 = new HBox();
         HBox bottom = new HBox();
         AVLTree tree = new AVLTree();
+        BackgroundFill bFill = new BackgroundFill(Color.ROSYBROWN, CornerRadii.EMPTY,Insets.EMPTY);
+        Background background = new Background(bFill);
+        pane.setBackground(background);
 
         Label Height = new Label("Height: " + (tree.getHeight(tree.root)-1));
         bottom.getChildren().addAll(Height);
