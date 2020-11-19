@@ -3,7 +3,11 @@ package sample;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.util.LinkedList;
@@ -226,8 +230,9 @@ public class AVLTree {
         int data;
         AVLTreeNode left;
         AVLTreeNode right;
-        float x;
-        float y;
+        Circle node = new Circle(20, Color.GRAY);
+        Label value = new Label(Integer.toString(data));
+        Line joint = new Line();
         int height;
 
         AVLTreeNode(int data) {

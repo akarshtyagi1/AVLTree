@@ -59,7 +59,7 @@ public class Main extends Application {
         pane.setStyle("-fx-border-color: black");
         pane.getChildren().addAll(hbox,hbox2,bottom);
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(pane,600,800);
+        Scene scene = new Scene(pane,800,600);
         stage.setScene(scene);
         stage.show();
     }
