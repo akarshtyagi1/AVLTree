@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -19,6 +20,7 @@ public class Main extends Application {
         Pane pane = new Pane();
         HBox hbox = new HBox();
         HBox hbox2 = new HBox();
+        HBox hbox3 = new HBox();
         HBox bottom = new HBox();
         AVLTree tree = new AVLTree();
         BackgroundFill bFill = new BackgroundFill(Color.ROSYBROWN, CornerRadii.EMPTY,Insets.EMPTY);
@@ -45,6 +47,14 @@ public class Main extends Application {
         hbox2.getChildren().addAll(delete,Delete,D_Enter);
         hbox2.setTranslateY(50);
 
+        Label search= new Label("Search Node: ");
+        TextField Search= new TextField();
+        Button S_Enter = new Button("ENTER");
+        hbox3.setSpacing(5);
+        hbox3.setPadding(new Insets(5,5,5,5));
+        hbox3.getChildren().addAll(search, Search, S_Enter);
+        hbox3.setTranslateY(100);
+
         Enter.setOnAction( e ->{
             tree.insert(Integer.parseInt(Insert.getText()),pane);
             Insert.clear();
@@ -56,8 +66,12 @@ public class Main extends Application {
             Delete.clear();
         });
 
+        S_Enter.setOnAction(e->{
+            tree.search(tree.root,Integer.parseInt(Search.getText()));
+        });
+
         pane.setStyle("-fx-border-color: black");
-        pane.getChildren().addAll(hbox,hbox2,bottom);
+        pane.getChildren().addAll(hbox,hbox2,hbox3,bottom);
         stage.setTitle("AVL Tree");
         Scene scene = new Scene(pane,800,600);
         stage.setScene(scene);

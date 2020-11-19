@@ -16,15 +16,17 @@ public class AVLTree {
 
     AVLTreeNode root;
 
+    //constructor
     public AVLTree() {
         this.root = new AVLTreeNode(-1);
     }
 
+    //arg constructor
     public AVLTree(int rootValue) {
         this.root = new AVLTreeNode(rootValue);
     }
 
-
+    //returns the height of the tree
     int getHeight(AVLTreeNode node) {
         if (node == null)
             return 0;
@@ -32,12 +34,14 @@ public class AVLTree {
         return node.height;
     }
 
+    //updates the height after a certain operation is performed
     void updateHeight(AVLTreeNode node) {
         if (node == null) return;
 
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
     }
 
+    //rotation of certain branches to balance the tree
     AVLTreeNode rotateRight(AVLTreeNode node) {
         if (node == null) return node;
 
@@ -72,6 +76,7 @@ public class AVLTree {
         return beta;
     }
 
+    //returns the balance height
     int getBalance(AVLTreeNode node) {
         if (node == null) {
             return 0;
@@ -83,6 +88,7 @@ public class AVLTree {
         return balance;
     }
 
+    //returns the min value present in the tree
     int getMinValue(AVLTreeNode node) {
 
         if (node == null) return Integer.MIN_VALUE;
@@ -93,6 +99,21 @@ public class AVLTree {
         return getMinValue(node.left);
     }
 
+    public void search(AVLTreeNode node, int key){
+        if (node==null) System.out.println("Tree is empty!");  ;
+            if (key<node.data){
+                //when the key is smaller than the present node value
+                 node=node.left;
+                 search(node, key);
+            }else if (key>node.data){
+                //when the key value is bigger than the present node value
+                node=node.right;
+                search(node, key);
+            }else if (key==node.data){
+                //if the data is found so then return it
+                System.out.println("\nFound " +key+ " at tree-height= "+ node.height);
+            }
+    }
     private AVLTreeNode delete(AVLTreeNode node, int key) {
 
         if (node == null) return null;
