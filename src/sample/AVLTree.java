@@ -200,7 +200,11 @@ public class AVLTree {
 
     public void insert(int key,Pane center) {
         root = insert(this.root, key,center);
-        center.getChildren().addAll(this.root.circle);
+        this.root.line.setStartX(600);
+        this.root.line.setStartY(60);
+        this.root.line.setEndX(560);
+        this.root.line.setEndY(80);
+        center.getChildren().addAll(this.root.circle,this.root.line);
         return;
     }
 
