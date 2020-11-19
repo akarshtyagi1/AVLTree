@@ -1,6 +1,5 @@
 package sample;
 
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -54,8 +53,6 @@ public class AVLTree {
 
 
         updateHeight(node);
-
-
         updateHeight(beta);
 
         return beta;
@@ -251,9 +248,11 @@ public class AVLTree {
         int data;
         AVLTreeNode left;
         AVLTreeNode right;
-        Circle node = new Circle(20, Color.GRAY);
-        Label value = new Label(Integer.toString(data));
-        Line joint = new Line();
+        float x;
+        float y;
+        Circle circle = new Circle(20,Color.WHITE);
+        Line line = new Line();
+        Label value = new Label();
         int height;
 
         AVLTreeNode(int data) {
