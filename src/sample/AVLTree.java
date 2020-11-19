@@ -1,20 +1,28 @@
 package sample;
 
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 import java.util.LinkedList;
 
 public class AVLTree {
 
+
     AVLTreeNode root;
 
-    AVLTree() {
-        this.root = new AVLTreeNode(9);
+    public AVLTree() {
+        this.root = new AVLTreeNode(-1);
     }
 
-    AVLTree(int rootValue) {
+    public AVLTree(int rootValue) {
         this.root = new AVLTreeNode(rootValue);
     }
 
     public static void main(String[] args) {
+
         AVLTree tree = new AVLTree(0);
 
         tree.insert(1);
@@ -158,8 +166,9 @@ public class AVLTree {
         if (node == null) {
             return new AVLTreeNode(key);
         }
-
-        if (key < node.data) {
+        if(node.data < 0){
+            node.data = key;
+        } else if (key < node.data) {
             node.left = insert(node.left, key);
         } else if (key > node.data) {
             node.right = insert(node.right, key);
@@ -167,10 +176,7 @@ public class AVLTree {
             return node;
         }
 
-
         updateHeight(node);
-
-
         int balance = getBalance(node);
 
         if (balance > 1) {
@@ -249,5 +255,4 @@ public class AVLTree {
             this.height = 1;
         }
     }
-
 }
