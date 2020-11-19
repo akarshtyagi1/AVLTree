@@ -10,7 +10,6 @@ import java.util.LinkedList;
 
 public class AVLTree {
 
-
     AVLTreeNode root;
 
     public AVLTree() {
@@ -21,25 +20,6 @@ public class AVLTree {
         this.root = new AVLTreeNode(rootValue);
     }
 
-    public static void main(String[] args) {
-
-        AVLTree tree = new AVLTree(0);
-
-        tree.insert(1);
-        tree.insert(2);
-        tree.insert(3);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(5);
-
-        System.out.print("AVL tree before deleting any key");
-        tree.printTreeLevelOrder();
-
-        tree.delete(5);
-
-        System.out.print("\n\nAVL tree after deleting key with value 1");
-        tree.printTreeLevelOrder();
-    }
 
     int getHeight(AVLTreeNode node) {
         if (node == null)
@@ -84,8 +64,6 @@ public class AVLTree {
 
 
         updateHeight(node);
-
-
         updateHeight(beta);
         return beta;
     }
@@ -161,7 +139,7 @@ public class AVLTree {
         return node;
     }
 
-    private AVLTreeNode insert(AVLTreeNode node, int key) {
+    public AVLTreeNode insert(AVLTreeNode node, int key, Pane pane) {
 
         if (node == null) {
             return new AVLTreeNode(key);
@@ -169,9 +147,9 @@ public class AVLTree {
         if(node.data < 0){
             node.data = key;
         } else if (key < node.data) {
-            node.left = insert(node.left, key);
+            node.left = insert(node.left, key,pane);
         } else if (key > node.data) {
-            node.right = insert(node.right, key);
+            node.right = insert(node.right, key,pane);
         } else {
             return node;
         }
@@ -197,8 +175,8 @@ public class AVLTree {
         return node;
     }
 
-    public void insert(int key) {
-        root = insert(this.root, key);
+    public void insert(int key,Pane pane) {
+        root = insert(this.root, key,pane);
         return;
     }
 
@@ -248,6 +226,8 @@ public class AVLTree {
         int data;
         AVLTreeNode left;
         AVLTreeNode right;
+        float x;
+        float y;
         int height;
 
         AVLTreeNode(int data) {
