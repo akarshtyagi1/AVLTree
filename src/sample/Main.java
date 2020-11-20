@@ -112,7 +112,7 @@ public class Main extends Application {
 
 
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(bPane,800,600);
+        Scene scene = new Scene(bPane,1200,800);
         stage.setScene(scene);
         stage.show();
     }
