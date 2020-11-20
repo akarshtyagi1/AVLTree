@@ -72,14 +72,15 @@ public class Main extends Application {
 
 
         EventHandler<ActionEvent> handler = e ->{
+            int key = Integer.parseInt(keyValue.getText());
           if(e.getSource() == insert){
-              tree.insert(Integer.parseInt(keyValue.getText()),center);
+              tree.insert(key,center);
               tree.printTreeLevelOrder();
           }else if(e.getSource() == delete){
-              tree.delete(Integer.parseInt(keyValue.getText()));
+              tree.delete(key,center);
               tree.printTreeLevelOrder();
           }else if(e.getSource() == search){
-              tree.search(tree.root,Integer.parseInt(keyValue.getText()));
+              tree.search(tree.root,key);
           }
             keyValue.clear();
         };

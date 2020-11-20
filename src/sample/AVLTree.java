@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.util.LinkedList;
@@ -14,6 +16,8 @@ import java.util.LinkedList;
 public class AVLTree {
 
     AVLTreeNode root;
+    float x=600;
+    float y=60;
 
     //constructor
     public AVLTree() {
@@ -45,12 +49,10 @@ public class AVLTree {
         if (node == null) return node;
 
         AVLTreeNode beta = node.left;
-
         AVLTreeNode t2 = beta.right;
 
         beta.right = node;
         node.left = t2;
-
 
         updateHeight(node);
         updateHeight(beta);
@@ -67,7 +69,6 @@ public class AVLTree {
         beta.left = node;
         node.right = t2;
 
-
         updateHeight(node);
         updateHeight(beta);
         return beta;
@@ -79,18 +80,13 @@ public class AVLTree {
             return 0;
         }
         int balance;
-
         balance = getHeight(node.left) - getHeight(node.right);
-
         return balance;
     }
 
     //returns the min value present in the tree
     int getMinValue(AVLTreeNode node) {
-
         if (node == null) return Integer.MIN_VALUE;
-
-
         if (node.left == null) return node.data;
 
         return getMinValue(node.left);
@@ -111,14 +107,14 @@ public class AVLTree {
                 System.out.println("\nFound " +key+ " at tree-height= "+ node.height);
             }
     }
-    private AVLTreeNode delete(AVLTreeNode node, int key) {
+    public AVLTreeNode delete(AVLTreeNode node, int key,Pane center) {
 
         if (node == null) return null;
 
         if (key < node.data) {
-            node.left = delete(node.left, key);
+            node.left = delete(node.left, key,center);
         } else if (key > node.data) {
-            node.right = delete(node.right, key);
+            node.right = delete(node.right, key,center);
         } else {
 
             if (node.left == null) {
@@ -128,10 +124,9 @@ public class AVLTree {
             } else {
                 int inorderSuccessorValue = getMinValue(node.right);
                 node.data = inorderSuccessorValue;
-                node.right = delete(node.right, inorderSuccessorValue);
+                node.right = delete(node.right, inorderSuccessorValue,center);
             }
         }
-
 
         if (node == null) {
             return null;
@@ -139,8 +134,6 @@ public class AVLTree {
 
 
         updateHeight(node);
-
-
         int balance = getBalance(node);
 
         if (balance > 1) {
@@ -161,19 +154,36 @@ public class AVLTree {
         return node;
     }
 
-    public AVLTreeNode insert(AVLTreeNode node, int key, Pane center) {
+    public AVLTreeNode insert(AVLTreeNode node, int key, Pane center,float xCord,float yCord) {
 
         if (node == null) {
-            return new AVLTreeNode(key);
+            AVLTreeNode newNode = new AVLTreeNode(key);
+            newNode.addNodeToTree(center,xCord,yCord,key);
+//            Label value = new Label(Integer.toString(key));
+//            value.setTranslateX(xCord); value.setTranslateY(yCord);
+//            Circle circle = new Circle(xCord,yCord,20,Color.WHITE);
+//            center.getChildren().addAll(circle,value);
+            return newNode;
         }
         if(node.data < 0){
             node.data = key;
-
-        } else if (key < node.data) {
-            node.left = insert(node.left, key,center);
-        } else if (key > node.data) {
-            node.right = insert(node.right, key,center);
-        } else {
+            node.addNodeToTree(center,xCord,yCord,key);
+//            Circle circle = new Circle(xCord,yCord,20,Color.WHITE);
+//            Label value = new Label(Integer.toString(key));
+//            value.setTranslateX(xCord); value.setTranslateY(yCord);
+//            center.getChildren().addAll(circle,value);
+        }
+        else if (key < node.data) {
+            yCord += 60f;
+            xCord -= 100f + (node.height*10);
+            node.left = insert(node.left, key,center,xCord,yCord);
+        }
+        else if (key > node.data) {
+            yCord += 60f;
+            xCord += 100f - (node.height*10);
+            node.right = insert(node.right, key,center,xCord,yCord);
+        }
+        else {
             return node;
         }
 
@@ -187,7 +197,8 @@ public class AVLTree {
                 node.left = rotateLeft(node.left);
                 node = rotateRight(node);
             }
-        } else if (balance < -1) {
+        }
+        else if (balance < -1) {
             if (key > node.right.data) {
                 node = rotateLeft(node);
             } else {
@@ -199,17 +210,14 @@ public class AVLTree {
     }
 
     public void insert(int key,Pane center) {
-        root = insert(this.root, key,center);
-        this.root.line.setStartX(600);
-        this.root.line.setStartY(60);
-        this.root.line.setEndX(560);
-        this.root.line.setEndY(80);
-        center.getChildren().addAll(this.root.circle,this.root.line);
+        root = insert(this.root, key,center,this.x,this.y);
+        this.x= (float) center.getWidth()/2;
+        this.y = 60f;
         return;
     }
 
-    public void delete(int key) {
-        root = delete(this.root, key);
+    public void delete(int key,Pane center) {
+        root = delete(this.root, key,center);
         return;
     }
 
@@ -240,7 +248,7 @@ public class AVLTree {
         }
     }
 
-    private class QueueNode {
+    public class QueueNode {
         AVLTreeNode treeNode;
         int level;
 
@@ -250,13 +258,11 @@ public class AVLTree {
         }
     }
 
-    private class AVLTreeNode {
+    public class AVLTreeNode {
         int data;
         AVLTreeNode left;
         AVLTreeNode right;
-        float x = 600;
-        float y = 60;
-        Circle circle = new Circle(x,y,20,Color.WHITE);
+        Circle circle = new Circle(20,Color.WHITE);
         Line line = new Line();
         Label value = new Label();
         int height;
@@ -264,6 +270,22 @@ public class AVLTree {
         AVLTreeNode(int data) {
             this.data = data;
             this.height = 1;
+        }
+
+        public void addNodeToTree(Pane center,float xCord, float yCord, int key){
+            String num = Integer.toString(key);
+            this.value.setText(num);
+            value.setFont(Font.font(null, FontWeight.BOLD,10));
+            value.setTranslateX(xCord - 5.5);
+            value.setTranslateY(yCord - 7);
+            this.circle.setStroke(Color.BLACK);
+            this.circle.setCenterX(xCord);
+            this.circle.setCenterY(yCord);
+            center.getChildren().addAll(this.circle,this.value);
+        }
+
+        public void deleteNodeFromTree(Pane center){
+            center.getChildren().removeAll(this.circle,this.value);
         }
     }
 }
