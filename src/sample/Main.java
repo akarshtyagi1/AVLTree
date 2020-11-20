@@ -50,6 +50,26 @@ public class Main extends Application {
         center.setBackground(cbackground);
         bPane.setCenter(center);
 
+        Pane pane1= new Pane();
+//        dialogPane.setHeaderText("Pre-Order");
+        BackgroundFill cFill1= new BackgroundFill(Color.CRIMSON, CornerRadii.EMPTY,Insets.EMPTY);
+        Background oBackground= new Background(cFill1);
+        pane1.setBackground(oBackground);
+        pane1.setPrefHeight(400);
+        pane1.setPrefWidth(200);
+        Button getOrder= new Button("Show Order");
+        getOrder.setOnAction(e->{
+            System.out.println("\nInorder:");
+            tree.printInorder(tree.root);
+            System.out.println("\nPostorder: ");
+            tree.printPreorder(tree.root);
+            System.out.println( "\nPreorder");
+            tree.printPostorder(tree.root);
+        });
+        pane1.getChildren().addAll(getOrder);
+        center.getChildren().addAll(pane1);
+
+
 
         //bottomBar
         VBox bottom = new VBox();
@@ -92,7 +112,7 @@ public class Main extends Application {
 
 
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(bPane,1200,800);
+        Scene scene = new Scene(bPane,800,600);
         stage.setScene(scene);
         stage.show();
     }

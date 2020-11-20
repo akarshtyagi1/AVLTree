@@ -38,10 +38,11 @@ public class AVLTree {
     }
 
     //updates the height after a certain operation is performed
-    void updateHeight(AVLTreeNode node) {
-        if (node == null) return;
+    int updateHeight(AVLTreeNode node) {
+        if (node == null) return 0;
 
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+        return node.height;
     }
 
     //rotation of certain branches to balance the tree
@@ -158,29 +159,25 @@ public class AVLTree {
 
         if (node == null) {
             AVLTreeNode newNode = new AVLTreeNode(key);
+            System.out.println("\n"+newNode.data+" coords, x: "+xCord+ " y: "+yCord+" node's height: "+ newNode.height);
             newNode.addNodeToTree(center,xCord,yCord,key);
-//            Label value = new Label(Integer.toString(key));
-//            value.setTranslateX(xCord); value.setTranslateY(yCord);
-//            Circle circle = new Circle(xCord,yCord,20,Color.WHITE);
-//            center.getChildren().addAll(circle,value);
             return newNode;
         }
         if(node.data < 0){
             node.data = key;
             node.addNodeToTree(center,xCord,yCord,key);
-//            Circle circle = new Circle(xCord,yCord,20,Color.WHITE);
-//            Label value = new Label(Integer.toString(key));
-//            value.setTranslateX(xCord); value.setTranslateY(yCord);
-//            center.getChildren().addAll(circle,value);
+
         }
         else if (key < node.data) {
             yCord += 60f;
-            xCord -= 100f + (node.height*10);
+            xCord -= (100f + updateHeight(node)*10);
+            System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
             node.left = insert(node.left, key,center,xCord,yCord);
         }
         else if (key > node.data) {
             yCord += 60f;
-            xCord += 100f - (node.height*10);
+            xCord += (100f + updateHeight(node)*10);
+            System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
             node.right = insert(node.right, key,center,xCord,yCord);
         }
         else {
@@ -211,7 +208,7 @@ public class AVLTree {
 
     public void insert(int key,Pane center) {
         root = insert(this.root, key,center,this.x,this.y);
-        this.x= (float) center.getWidth()/2;
+        this.x= 600;
         this.y = 60f;
         return;
     }
@@ -246,6 +243,55 @@ public class AVLTree {
                 queue.add(new QueueNode(currentNode.treeNode.right, currentNode.level + 1));
             }
         }
+    }
+
+    /* Given a binary tree, print its nodes according to the
+      "bottom-up" postorder traversal. */
+    void printPostorder(AVLTreeNode node)
+    {
+        if (node == null)
+            return;
+
+        // first recur on left subtree
+        printPostorder(node.left);
+
+        // then recur on right subtree
+        printPostorder(node.right);
+
+        // now deal with the node
+        System.out.print(node.data + " ");
+    }
+
+    /* Given a binary tree, print its nodes in inorder*/
+    void printInorder(AVLTreeNode node)
+    {
+        if (node == null)
+            return;
+
+        /* first recur on left child */
+        printInorder(node.left);
+
+        /* then print the data of node */
+        System.out.print(node.data + " ");
+
+        /* now recur on right child */
+        printInorder(node.right);
+    }
+
+    /* Given a binary tree, print its nodes in preorder*/
+    void printPreorder(AVLTreeNode node)
+    {
+        if (node == null)
+            return;
+
+        /* first print data of node */
+        System.out.print(node.data + " ");
+
+        /* then recur on left sutree */
+        printPreorder(node.left);
+
+        /* now recur on right subtree */
+        printPreorder(node.right);
     }
 
     public class QueueNode {
