@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -14,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AVLTree {
@@ -21,6 +23,12 @@ public class AVLTree {
     AVLTreeNode root;
     float x=600;
     float y=60;
+    ArrayList<Integer> inOrder= new ArrayList<>();
+    ArrayList<Integer> preOrder= new ArrayList<>();
+    ArrayList<Integer> postOrder= new ArrayList<>();
+    Label inOrderLabel= new Label();
+    Label preOrderLabel= new Label();
+    Label postOrderLabel= new Label();
 
     //constructor
     public AVLTree() {
@@ -310,52 +318,76 @@ public class AVLTree {
 
     /* Given a binary tree, print its nodes according to the
       "bottom-up" postorder traversal. */
-    void printPostorder(AVLTreeNode node)
+    void printPostorder(AVLTreeNode node, Pane pane)
     {
         if (node == null)
             return;
 
         // first recur on left subtree
-        printPostorder(node.left);
+        printPostorder(node.left, pane);
 
         // then recur on right subtree
-        printPostorder(node.right);
+        printPostorder(node.right, pane);
 
         // now deal with the node
         System.out.print(node.data + " ");
+        postOrder.add(node.data);
     }
 
     /* Given a binary tree, print its nodes in inorder*/
-    void printInorder(AVLTreeNode node)
+    void printInorder(AVLTreeNode node, Pane pane)
     {
         if (node == null)
             return;
 
         /* first recur on left child */
-        printInorder(node.left);
+        printInorder(node.left, pane);
 
         /* then print the data of node */
         System.out.print(node.data + " ");
+        inOrder.add(node.data);
 
         /* now recur on right child */
-        printInorder(node.right);
+        printInorder(node.right, pane);
     }
 
     /* Given a binary tree, print its nodes in preorder*/
-    void printPreorder(AVLTreeNode node)
+    void printPreorder(AVLTreeNode node, Pane pane)
     {
         if (node == null)
             return;
 
         /* first print data of node */
         System.out.print(node.data + " ");
+        preOrder.add(node.data);
 
         /* then recur on left sutree */
-        printPreorder(node.left);
+        printPreorder(node.left, pane);
 
         /* now recur on right subtree */
-        printPreorder(node.right);
+        printPreorder(node.right, pane);
     }
+   public void addOrderToPane(Pane pane){
+       VBox orderVBox= new VBox();
+       printPostorder(root,pane);
+       printInorder(root,pane);
+       printPreorder(root, pane);
+
+
+       inOrderLabel.setText("\n\n\nInorder:"+inOrder.toString()+" \n");
+       preOrderLabel.setText("Preorder:"+preOrder.toString()+ "\n");
+       postOrderLabel.setText("Postorder:"+postOrder.toString()+ "\n");
+
+
+
+
+       orderVBox.getChildren().addAll(inOrderLabel, preOrderLabel,postOrderLabel);
+       pane.getChildren().addAll(orderVBox);
+       preOrder.clear();
+       inOrder.clear();
+       postOrder.clear();
+
+   }
 
     public class QueueNode {
         AVLTreeNode treeNode;
@@ -367,6 +399,7 @@ public class AVLTree {
         }
     }
 
+
     public class AVLTreeNode {
         int data;
         AVLTreeNode left;
@@ -376,10 +409,12 @@ public class AVLTree {
         Label value = new Label();
         int height;
 
+
         AVLTreeNode(int data) {
             this.data = data;
             this.height = 1;
         }
+
 
         public void addNodeToTree(Pane center,float xCord, float yCord,float p_xCord, float p_yCord, int key){
             String num = Integer.toString(key);

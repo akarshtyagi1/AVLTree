@@ -2,6 +2,7 @@ package sample;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage stage) throws Exception{
         //Top heading
@@ -25,6 +27,21 @@ public class Main extends Application {
         BorderPane bPane = new BorderPane();
         VBox top = new VBox();
         HBox pane = new HBox();
+        VBox left= new VBox();
+
+        bPane.setLeft(left);
+        Pane orderPane= new Pane();
+        orderPane.setMinWidth(150);
+        Label orders= new Label("Orders");
+        orderPane.getChildren().addAll(orders);
+        left.getChildren().addAll(orderPane);
+
+        left.setSpacing(200);
+
+
+//        public void showOrderPane(Pane pane){
+//            tree.addOrderToPane(orderPane);
+//        }
 
         pane.setPrefHeight(70);
         pane.setMaxWidth(99999.999d);
@@ -51,23 +68,18 @@ public class Main extends Application {
         bPane.setCenter(center);
 
         Pane pane1= new Pane();
-//        dialogPane.setHeaderText("Pre-Order");
-        BackgroundFill cFill1= new BackgroundFill(Color.CRIMSON, CornerRadii.EMPTY,Insets.EMPTY);
+        Label label= new Label();
+        BackgroundFill cFill1= new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY);
         Background oBackground= new Background(cFill1);
         pane1.setBackground(oBackground);
-        pane1.setPrefHeight(400);
-        pane1.setPrefWidth(200);
+//        pane1.setPrefHeight(200);
+//        pane1.setPrefWidth(50);
         Button getOrder= new Button("Show Order");
         getOrder.setOnAction(e->{
-            System.out.println("\nInorder:");
-            tree.printInorder(tree.root);
-            System.out.println("\nPostorder: ");
-            tree.printPreorder(tree.root);
-            System.out.println( "\nPreorder");
-            tree.printPostorder(tree.root);
+            tree.addOrderToPane(pane1);
         });
-        pane1.getChildren().addAll(getOrder);
-        center.getChildren().addAll(pane1);
+        pane1.getChildren().addAll(getOrder,label);
+//        center.getChildren().addAll(pane1);
 
 
 
@@ -87,7 +99,7 @@ public class Main extends Application {
         Button search = new Button("Search");
         Button delete = new Button("Delete");
         bBox.getChildren().addAll(keyValue,insert,search,delete);
-        bottom.getChildren().addAll(bBox);
+        bottom.getChildren().addAll(bBox, pane1);
         bPane.setBottom(bottom);
 
 
@@ -96,12 +108,15 @@ public class Main extends Application {
           if(e.getSource() == insert){
               tree.insert(key,center);
               tree.printTreeLevelOrder();
+              tree.addOrderToPane(orderPane);
           }else if(e.getSource() == delete){
               tree.delete(key,center);
               tree.printTreeLevelOrder();
+              tree.addOrderToPane(orderPane);
           }else if(e.getSource() == search){
               if(tree.search(tree.root,key) == null){
                   System.out.println(key + " not Found");
+                  tree.addOrderToPane(orderPane);
               }
           }
             keyValue.clear();
@@ -113,8 +128,9 @@ public class Main extends Application {
         search.setOnAction(handler);
 
 
+
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(bPane,1200,800);
+        Scene scene = new Scene(bPane,800,600);
         stage.setScene(scene);
         stage.show();
     }
