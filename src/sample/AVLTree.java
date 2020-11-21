@@ -60,19 +60,22 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
-        beta.left.circle.setCenterX(beta.circle.getCenterX());
-        beta.left.circle.setCenterY(beta.circle.getCenterY());
-        beta.left.value.setTranslateX(beta.value.getTranslateX());
-        beta.left.value.setTranslateY(beta.value.getTranslateY());
-        beta.left.line.setStartX(node.circle.getCenterX());
-        beta.left.line.setStartY(node.circle.getCenterY());
-        beta.left.line.setEndX(beta.circle.getCenterX());
-        beta.left.line.setEndY(beta.circle.getCenterY());
-
+        if(beta.left != null){
+            beta.left.circle.setCenterX(beta.circle.getCenterX());
+            beta.left.circle.setCenterY(beta.circle.getCenterY());
+            beta.left.value.setTranslateX(beta.value.getTranslateX());
+            beta.left.value.setTranslateY(beta.value.getTranslateY());
+            beta.left.line.setStartX(node.circle.getCenterX());
+            beta.left.line.setStartY(node.circle.getCenterY());
+            beta.left.line.setEndX(beta.circle.getCenterX());
+            beta.left.line.setEndY(beta.circle.getCenterY());
+        }
         beta.circle.setCenterX(node.circle.getCenterX());
         beta.circle.setCenterY(node.circle.getCenterY());
         beta.value.setTranslateX(node.value.getTranslateX());
         beta.value.setTranslateY(node.value.getTranslateY());
+        beta.line.setEndX(beta.line.getStartX());
+        beta.line.setEndY(beta.line.getStartY());
 
         node.circle.setCenterY(beta.circle.getCenterY() + 60);
         node.circle.setCenterX(node.circle.getCenterX() + 100 + node.height*10);
@@ -99,19 +102,23 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
-        beta.right.circle.setCenterX(beta.circle.getCenterX());
-        beta.right.circle.setCenterY(beta.circle.getCenterY());
-        beta.right.value.setTranslateX(beta.value.getTranslateX());
-        beta.right.value.setTranslateY(beta.value.getTranslateY());
-        beta.right.line.setStartX(node.circle.getCenterX());
-        beta.right.line.setStartY(node.circle.getCenterY());
-        beta.right.line.setEndX(beta.circle.getCenterX());
-        beta.right.line.setEndY(beta.circle.getCenterY());
+        if(beta.right != null){
+            beta.right.circle.setCenterX(beta.circle.getCenterX());
+            beta.right.circle.setCenterY(beta.circle.getCenterY());
+            beta.right.value.setTranslateX(beta.value.getTranslateX());
+            beta.right.value.setTranslateY(beta.value.getTranslateY());
+            beta.right.line.setStartX(node.circle.getCenterX());
+            beta.right.line.setStartY(node.circle.getCenterY());
+            beta.right.line.setEndX(beta.circle.getCenterX());
+            beta.right.line.setEndY(beta.circle.getCenterY());
+        }
 
         beta.circle.setCenterX(node.circle.getCenterX());
         beta.circle.setCenterY(node.circle.getCenterY());
         beta.value.setTranslateX(node.value.getTranslateX());
         beta.value.setTranslateY(node.value.getTranslateY());
+        beta.line.setEndX(beta.line.getStartX());
+        beta.line.setEndY(beta.line.getStartY());
 
         node.circle.setCenterY(beta.circle.getCenterY() + 60);
         node.circle.setCenterX(node.circle.getCenterX() - 100 - node.height*10);
