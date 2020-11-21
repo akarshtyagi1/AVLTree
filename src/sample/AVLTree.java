@@ -372,7 +372,7 @@ public class AVLTree {
         AVLTreeNode left;
         AVLTreeNode right;
         Circle circle = new Circle(20,Color.WHITE);
-        Line line ;
+        Line line = new Line();
         Label value = new Label();
         int height;
 
@@ -383,14 +383,27 @@ public class AVLTree {
 
         public void addNodeToTree(Pane center,float xCord, float yCord,float p_xCord, float p_yCord, int key){
             String num = Integer.toString(key);
-            this.value.setText(num);
-            value.setFont(Font.font(null, FontWeight.BOLD,10));
-            value.setTranslateX(xCord - 5.5);
-            value.setTranslateY(yCord - 7);
-            this.line = new Line(xCord,yCord,p_xCord,p_yCord);
             this.circle.setStroke(Color.BLACK);
             this.circle.setCenterX(xCord);
             this.circle.setCenterY(yCord);
+
+            this.value.setText(num);
+            this.value.setFont(Font.font(null, FontWeight.BOLD,10));
+
+
+//            this.value.translateXProperty().bind(this.circle.centerXProperty());
+//            this.value.translateYProperty().bind(this.circle.centerYProperty());System.out.println(p_xCord);
+//            this.line.setStartX(p_xCord);
+//            this.line.setStartY(p_yCord);
+//            this.line.endXProperty().bind(this.circle.centerXProperty());
+//            this.line.endYProperty().bind(this.circle.centerYProperty());
+
+
+            value.setTranslateX(xCord - 5.5);
+            value.setTranslateY(yCord - 7);
+            this.line = new Line(p_xCord,p_yCord,this.circle.getCenterX(),this.circle.getCenterY());
+            this.line.setViewOrder(10);
+
             center.getChildren().addAll(this.line,this.circle,this.value);
         }
 
