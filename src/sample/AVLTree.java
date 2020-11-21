@@ -60,7 +60,6 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
-
         beta.left.circle.setCenterX(beta.circle.getCenterX());
         beta.left.circle.setCenterY(beta.circle.getCenterY());
         beta.left.value.setTranslateX(beta.value.getTranslateX());
@@ -75,9 +74,9 @@ public class AVLTree {
         beta.value.setTranslateX(node.value.getTranslateX());
         beta.value.setTranslateY(node.value.getTranslateY());
 
-        node.circle.setCenterY(60*(node.height+1));
+        node.circle.setCenterY(beta.circle.getCenterY() + 60);
         node.circle.setCenterX(node.circle.getCenterX() + 100 + node.height*10);
-        node.value.setTranslateY(60*(node.height+1));
+        node.value.setTranslateY(node.circle.getCenterY());
         node.value.setTranslateX(node.circle.getCenterX());
         node.line.setStartX(beta.circle.getCenterX());
         node.line.setStartY(beta.circle.getCenterY());
@@ -100,9 +99,28 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
+        beta.right.circle.setCenterX(beta.circle.getCenterX());
+        beta.right.circle.setCenterY(beta.circle.getCenterY());
+        beta.right.value.setTranslateX(beta.value.getTranslateX());
+        beta.right.value.setTranslateY(beta.value.getTranslateY());
+        beta.right.line.setStartX(node.circle.getCenterX());
+        beta.right.line.setStartY(node.circle.getCenterY());
+        beta.right.line.setEndX(beta.circle.getCenterX());
+        beta.right.line.setEndY(beta.circle.getCenterY());
 
+        beta.circle.setCenterX(node.circle.getCenterX());
+        beta.circle.setCenterY(node.circle.getCenterY());
+        beta.value.setTranslateX(node.value.getTranslateX());
+        beta.value.setTranslateY(node.value.getTranslateY());
 
-
+        node.circle.setCenterY(beta.circle.getCenterY() + 60);
+        node.circle.setCenterX(node.circle.getCenterX() - 100 - node.height*10);
+        node.value.setTranslateY(node.circle.getCenterY());
+        node.value.setTranslateX(node.circle.getCenterX());
+        node.line.setStartX(beta.circle.getCenterX());
+        node.line.setStartY(beta.circle.getCenterY());
+        node.line.setEndX(node.circle.getCenterX());
+        node.line.setEndY(node.circle.getCenterY());
 
         return beta;
     }
@@ -198,7 +216,6 @@ public class AVLTree {
         if(node.data < 0){
             node.data = key;
             node.addNodeToTree(center,xCord,yCord,p_xCord,p_yCord,key);
-
         }
         else if (key < node.data) {
             p_xCord = xCord;
