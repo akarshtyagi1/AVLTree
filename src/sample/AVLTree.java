@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,6 +11,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.LinkedList;
 
@@ -46,7 +48,7 @@ public class AVLTree {
     }
 
     //rotation of certain branches to balance the tree
-    AVLTreeNode rotateRight(AVLTreeNode node) {
+    AVLTreeNode rotateRight(AVLTreeNode node,Pane center) {
         if (node == null) return node;
 
         AVLTreeNode beta = node.left;
@@ -58,10 +60,35 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
+
+        beta.left.circle.setCenterX(beta.circle.getCenterX());
+        beta.left.circle.setCenterY(beta.circle.getCenterY());
+        beta.left.value.setTranslateX(beta.value.getTranslateX());
+        beta.left.value.setTranslateY(beta.value.getTranslateY());
+        beta.left.line.setStartX(node.circle.getCenterX());
+        beta.left.line.setStartY(node.circle.getCenterY());
+        beta.left.line.setEndX(beta.circle.getCenterX());
+        beta.left.line.setEndY(beta.circle.getCenterY());
+
+        beta.circle.setCenterX(node.circle.getCenterX());
+        beta.circle.setCenterY(node.circle.getCenterY());
+        beta.value.setTranslateX(node.value.getTranslateX());
+        beta.value.setTranslateY(node.value.getTranslateY());
+
+        node.circle.setCenterY(60*(node.height+1));
+        node.circle.setCenterX(node.circle.getCenterX() + 100 + node.height*10);
+        node.value.setTranslateY(60*(node.height+1));
+        node.value.setTranslateX(node.circle.getCenterX());
+        node.line.setStartX(beta.circle.getCenterX());
+        node.line.setStartY(beta.circle.getCenterY());
+        node.line.setEndX(node.circle.getCenterX());
+        node.line.setEndY(node.circle.getCenterY());
+
         return beta;
     }
 
-    AVLTreeNode rotateLeft(AVLTreeNode node) {
+
+    AVLTreeNode rotateLeft(AVLTreeNode node,Pane center) {
         if (node == null) return node;
 
         AVLTreeNode beta = node.right;
@@ -72,6 +99,11 @@ public class AVLTree {
 
         updateHeight(node);
         updateHeight(beta);
+
+
+
+
+
         return beta;
     }
 
@@ -139,17 +171,17 @@ public class AVLTree {
 
         if (balance > 1) {
             if (getBalance(node.left) >= 0) {
-                node = rotateRight(node);
+                node = rotateRight(node,center);
             } else {
-                node.left = rotateLeft(node.left);
-                node = rotateRight(node);
+                node.left = rotateLeft(node.left,center);
+                node = rotateRight(node,center);
             }
         } else if (balance < -1) {
             if (getBalance(node.right) <= 0) {
-                node = rotateLeft(node);
+                node = rotateLeft(node,center);
             } else {
-                node.right = rotateRight(node.right);
-                node = rotateLeft(node);
+                node.right = rotateRight(node.right,center);
+                node = rotateLeft(node,center);
             }
         }
         return node;
@@ -193,18 +225,18 @@ public class AVLTree {
 
         if (balance > 1) {
             if (key < node.left.data) {
-                node = rotateRight(node);
+                node = rotateRight(node,center);
             } else {
-                node.left = rotateLeft(node.left);
-                node = rotateRight(node);
+                node.left = rotateLeft(node.left,center);
+                node = rotateRight(node,center);
             }
         }
         else if (balance < -1) {
             if (key > node.right.data) {
-                node = rotateLeft(node);
+                node = rotateLeft(node,center);
             } else {
-                node.right = rotateRight(node.right);
-                node = rotateLeft(node);
+                node.right = rotateRight(node.right,center);
+                node = rotateLeft(node,center);
             }
         }
         return node;
