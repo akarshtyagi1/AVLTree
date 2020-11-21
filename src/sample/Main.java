@@ -100,7 +100,9 @@ public class Main extends Application {
               tree.delete(key,center);
               tree.printTreeLevelOrder();
           }else if(e.getSource() == search){
-              tree.search(tree.root,key);
+              if(tree.search(tree.root,key) == null){
+                  System.out.println(key + " not Found");
+              }
           }
             keyValue.clear();
         };

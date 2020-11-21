@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -150,20 +151,22 @@ public class AVLTree {
         return getMinValue(node.left);
     }
 
-    public void search(AVLTreeNode node, int key){
-        if (node==null) System.out.println("Tree is empty!");  ;
-            if (key<node.data){
-                //when the key is smaller than the present node value
-                 node=node.left;
-                 search(node, key);
-            }else if (key>node.data){
-                //when the key value is bigger than the present node value
-                node=node.right;
-                search(node, key);
-            }else if (key==node.data){
-                //if the data is found so then return it
+    public AVLTreeNode search(AVLTreeNode node, int key){
+        if (node==null) {
+            System.out.println("Tree is empty!");
+            return null;
+        }
+            if (key<node.data){                          //when the key is smaller than the present node value
+                 search(node.left, key);
+            }else if (key>node.data){                    //when the key value is bigger than the present node value
+                search(node.right, key);
+            }else if (key==node.data){                   //if the data is found so then return it
+                node.circle.setFill(Color.RED);
+                node.value.setTextFill(Color.WHITE);
                 System.out.println("\nFound " +key+ " at tree-height= "+ node.height);
+                return node;
             }
+        return null;
     }
     public AVLTreeNode delete(AVLTreeNode node, int key,Pane center) {
 
@@ -174,22 +177,22 @@ public class AVLTree {
         } else if (key > node.data) {
             node.right = delete(node.right, key,center);
         } else {
-
             if (node.left == null) {
+                node.deleteNodeFromTree(center);
                 node = node.right;
             } else if (node.right == null) {
+                node.deleteNodeFromTree(center);
                 node = node.left;
             } else {
                 int inorderSuccessorValue = getMinValue(node.right);
                 node.data = inorderSuccessorValue;
+                node.value.setText(Integer.toString(inorderSuccessorValue));
                 node.right = delete(node.right, inorderSuccessorValue,center);
             }
         }
-
         if (node == null) {
             return null;
         }
-
 
         updateHeight(node);
         int balance = getBalance(node);
