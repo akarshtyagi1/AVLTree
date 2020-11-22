@@ -7,7 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -19,9 +22,9 @@ public class AVLTree {
     ArrayList<Integer> inOrder= new ArrayList<>();
     ArrayList<Integer> preOrder= new ArrayList<>();
     ArrayList<Integer> postOrder= new ArrayList<>();
-    Label inOrderLabel= new Label();
-    Label preOrderLabel= new Label();
-    Label postOrderLabel= new Label();
+    Text inOrderLabel= new Text();
+    Text preOrderLabel= new Text();
+    Text postOrderLabel= new Text();
     Label heightLabel= new Label();
 
     //constructor
@@ -52,6 +55,7 @@ public class AVLTree {
 //adding height to pane
     void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
         heightLabel.setText("Height of the Tree: "+ updateHeight(node));
+        heightLabel.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
         detailsPane.getChildren().addAll(heightLabel);
     }
     //rotation of certain branches to balance the tree
@@ -251,7 +255,7 @@ public class AVLTree {
                     node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     node.right.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.right.line.startYProperty().bind(p_Node.circle.centerYProperty());
-                }else{
+                }else if(node.right != null){
                     System.out.println("two");
                     node.right.circle.centerXProperty().bind(center.widthProperty().divide(2));
                     node.right.circle.centerYProperty().unbind();
@@ -269,7 +273,7 @@ public class AVLTree {
                     node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
-                }else{
+                }else if(node.left != null){
                     System.out.println("two");
                     node.left.circle.centerXProperty().bind(center.widthProperty().divide(2));
                     node.left.circle.centerYProperty().unbind();
@@ -464,9 +468,16 @@ public class AVLTree {
        printInorder(root,pane);
        printPreorder(root, pane);
 
-       inOrderLabel.setText("\n\n\nInorder:"+inOrder.toString()+" \n");
-       preOrderLabel.setText("Preorder:"+preOrder.toString()+ "\n");
-       postOrderLabel.setText("Postorder:"+postOrder.toString()+ "\n");
+       inOrderLabel.setText("\n\n\n\nInorder:"+inOrder.toString()+" \n");
+       preOrderLabel.setText("\n\n\n\nPreorder:"+preOrder.toString()+ "\n");
+       postOrderLabel.setText("\n\n\n\nPostorder:"+postOrder.toString()+ "\n");
+       inOrderLabel.setFont(Font.font(("Times New Roman"), FontWeight.BOLD, FontPosture.ITALIC, 14));
+       preOrderLabel.setFont(Font.font(("Times New Roman"), FontWeight.BOLD, FontPosture.ITALIC, 14));
+       postOrderLabel.setFont(Font.font(("Times New Roman"), FontWeight.BOLD, FontPosture.ITALIC, 14));
+
+       inOrderLabel.setWrappingWidth(140);
+       preOrderLabel.setWrappingWidth(140);
+       postOrderLabel.setWrappingWidth(140);
 
        orderVBox.getChildren().addAll(inOrderLabel, preOrderLabel,postOrderLabel);
        pane.getChildren().addAll(orderVBox);

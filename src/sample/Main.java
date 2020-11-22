@@ -29,12 +29,23 @@ public class Main extends Application {
         HBox pane = new HBox();
         VBox left= new VBox();
 
+        left.setPadding(new Insets(5,10,5,10));
         bPane.setLeft(left);
         Pane orderPane= new Pane();
         orderPane.setMinWidth(150);
-        Label orders= new Label("Orders");
-        orders.translateXProperty().bind(left.widthProperty().divide(3));
-        orderPane.getChildren().addAll(orders);
+        orderPane.setMaxWidth(150);
+        orderPane.setMinHeight(bPane.getHeight());
+        orderPane.setMaxHeight(bPane.getHeight());
+        BackgroundFill oFill= new BackgroundFill(Color.rgb(232,232,232), CornerRadii.EMPTY,Insets.EMPTY);
+        Background oBackground= new Background(oFill);
+        orderPane.setBackground(oBackground);
+//        Label orders= new Label("Orders");
+        Text text = new Text("Orders");
+        text.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
+        text.setX(40); text.setY(30); text.setFill(Color.rgb(145,66,94));
+        text.setStrokeWidth(2);
+//        orders.translateXProperty().bind(left.widthProperty().divide(3));
+        orderPane.getChildren().addAll( text);
         left.getChildren().addAll(orderPane);
         left.setSpacing(200);
 
@@ -45,7 +56,7 @@ public class Main extends Application {
 
         pane.setPrefHeight(70);
         pane.setMaxWidth(99999.999d);
-        BackgroundFill bFill = new BackgroundFill(Color.GREY, CornerRadii.EMPTY,Insets.EMPTY);
+        BackgroundFill bFill = new BackgroundFill(Color.rgb(48,71,94), CornerRadii.EMPTY,Insets.EMPTY);
         Background background = new Background(bFill);
         pane.setBackground(background);
 
@@ -62,15 +73,15 @@ public class Main extends Application {
 
         //Center
         Pane center = new Pane();
-        BackgroundFill cFill = new BackgroundFill(Color.WHEAT, CornerRadii.EMPTY,Insets.EMPTY);
+        BackgroundFill cFill = new BackgroundFill(Color.rgb(240,84,84), CornerRadii.EMPTY,Insets.EMPTY);
         Background cbackground = new Background(cFill);
         center.setBackground(cbackground);
         bPane.setCenter(center);
 
         Pane detailsPane= new Pane();
         BackgroundFill cFill1= new BackgroundFill(Color.BLANCHEDALMOND, CornerRadii.EMPTY,Insets.EMPTY);
-        Background oBackground= new Background(cFill1);
-        detailsPane.setBackground(oBackground);
+        Background dBackground= new Background(cFill1);
+        detailsPane.setBackground(dBackground);
 //        detailsPane.setPrefHeight(200);
 //        detailsPane.setPrefWidth(50);
 //        Button getOrder= new Button("Show Order");
@@ -105,16 +116,19 @@ public class Main extends Application {
         EventHandler<ActionEvent> handler = e ->{
             int key = Integer.parseInt(keyValue.getText());
           if(e.getSource() == insert){
+              keyValue.clear();
               tree.insert(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
               tree.addHeightToDetailPane(tree.root, detailsPane);
           }else if(e.getSource() == delete){
+              keyValue.clear();
               tree.delete(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
               tree.addHeightToDetailPane(tree.root, detailsPane);
           }else if(e.getSource() == search){
+              keyValue.clear();
               if(tree.search(tree.root,key) == null){
                   System.out.println(key + " not Found");
                   tree.addOrderToPane(orderPane);
