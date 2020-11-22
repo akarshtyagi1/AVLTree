@@ -249,7 +249,7 @@ public class AVLTree {
         } else {
             if (node.left == null) {
                 node.deleteNodeFromTree(center);
-                if(p_Node != node){
+                if(p_Node != node && node.right != null){
                     System.out.println("one");
                     node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(100 + node.height*40));
                     node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
@@ -267,7 +267,7 @@ public class AVLTree {
                 node = node.right;
             } else if (node.right == null) {
                 node.deleteNodeFromTree(center);
-                if(p_Node != node){
+                if(p_Node != node && node.left != null){
                     System.out.println("one");
                     node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(100 + node.height*40));
                     node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
@@ -330,7 +330,7 @@ public class AVLTree {
             p_xCord = xCord;
             p_yCord = yCord;
             yCord += 60f;
-            xCord -= (100f + updateHeight(node)*40);
+            xCord -= ( 100f + updateHeight(node)*40);
             System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
             node.left = insert( node, node.left, key, center, xCord, yCord, p_xCord, p_yCord);
         }
@@ -527,9 +527,13 @@ public class AVLTree {
             if(this == p_node){
                 this.circle.setCenterX(xCord);
                 this.circle.setCenterY(yCord);
-            }else{
+            }else if(p_node != null){
                 this.circle.centerXProperty().bind(p_node.circle.centerXProperty().add(xCord - p_xCord));
                 this.circle.centerYProperty().bind(p_node.circle.centerYProperty().add(60));
+            }else{
+                this.circle.centerXProperty().bind(center.widthProperty().divide(2));
+                this.circle.centerYProperty().unbind();
+                this.circle.setCenterY(60);
             }
 
             this.value.setText(num);
@@ -540,10 +544,14 @@ public class AVLTree {
             if(this == p_node){
                 this.line.startXProperty().bind(this.circle.centerXProperty());
                 this.line.startYProperty().bind(this.circle.centerYProperty());
-            }else{
+            }else if(p_node != null){
                 this.line.startXProperty().bind(p_node.circle.centerXProperty());
                 this.line.startYProperty().bind(p_node.circle.centerYProperty());
+            }else{
+                this.line.startXProperty().bind(this.circle.centerXProperty());
+                this.line.startYProperty().bind(this.circle.centerYProperty());
             }
+
             this.line.endXProperty().bind(this.circle.centerXProperty());
             this.line.endYProperty().bind(this.circle.centerYProperty());
             this.line.setViewOrder(10);
