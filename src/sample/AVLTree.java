@@ -10,7 +10,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -26,6 +25,8 @@ public class AVLTree {
     Text preOrderLabel= new Text();
     Text postOrderLabel= new Text();
     Label heightLabel= new Label();
+
+
 
     //constructor
     public AVLTree() {
@@ -57,6 +58,7 @@ public class AVLTree {
         heightLabel.setText("Height of the Tree: "+ updateHeight(node));
         heightLabel.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
         detailsPane.getChildren().addAll(heightLabel);
+
     }
     //rotation of certain branches to balance the tree
     AVLTreeNode rotateRight(AVLTreeNode p_Node,AVLTreeNode node,Pane center) {
@@ -537,9 +539,9 @@ public class AVLTree {
             }
 
             this.value.setText(num);
-            this.value.setFont(Font.font(null, FontWeight.BOLD,10));
-            this.value.translateXProperty().bind(this.circle.centerXProperty());
-            this.value.translateYProperty().bind(this.circle.centerYProperty());System.out.println(p_xCord);
+            this.value.setFont(Font.font(null, FontWeight.BOLD,12));
+            this.value.translateXProperty().bind(this.circle.centerXProperty().subtract(5.5));
+            this.value.translateYProperty().bind(this.circle.centerYProperty().subtract(7.5));System.out.println(p_xCord);
 
             if(this == p_node){
                 this.line.startXProperty().bind(this.circle.centerXProperty());
@@ -555,9 +557,6 @@ public class AVLTree {
             this.line.endXProperty().bind(this.circle.centerXProperty());
             this.line.endYProperty().bind(this.circle.centerYProperty());
             this.line.setViewOrder(10);
-//            value.setTranslateX(xCord - 5.5);
-//            value.setTranslateY(yCord - 7);
-//            this.line = new Line(p_xCord,p_yCord,this.circle.getCenterX(),this.circle.getCenterY());
             center.getChildren().addAll(this.line,this.circle,this.value);
         }
 

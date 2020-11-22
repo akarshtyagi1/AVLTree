@@ -73,7 +73,7 @@ public class Main extends Application {
 
         //Center
         Pane center = new Pane();
-        BackgroundFill cFill = new BackgroundFill(Color.rgb(240,84,84), CornerRadii.EMPTY,Insets.EMPTY);
+        BackgroundFill cFill = new BackgroundFill(Color.rgb(240,84,84,0.9), CornerRadii.EMPTY,Insets.EMPTY);
         Background cbackground = new Background(cFill);
         center.setBackground(cbackground);
         bPane.setCenter(center);
@@ -104,10 +104,14 @@ public class Main extends Application {
 
 
         TextField keyValue = new TextField();
+//        keyValue.setStyle("-fx-font-family: Quicksand;-fx-font-size: 18; -fx-padding: 1,1,1,1;-fx-border-color: grey; -fx-border-width: 2;-fx-border-radius: 1;-fx-border: gone; -fx-background-color: transparent; -fx-text-fill: grey;");
         keyValue.setMaxWidth(300);
         Button insert = new Button("Insert");
         Button search = new Button("Search");
         Button delete = new Button("Delete");
+        insert.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #186A3B   0%, #145A32 100%),#229954 , #1E8449,radial-gradient(center 50% 50%, radius 100%, #229954, #1E8449);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em; -fx-text-fill:white;");
+        search.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024, #d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em; -fx-text-fill:white;");
+        delete.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #78281F 0%, #7B241C 100%),#922B21, #C0392B ,radial-gradient(center 50% 50%, radius 100%, #CB4335, #922B21);-fx-effect: dropshadow( gaussian , #CB4335 , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em; -fx-text-fill:white;");
         bBox.getChildren().addAll(keyValue,insert,search,delete);
         bottom.getChildren().addAll(bBox, detailsPane);
         bPane.setBottom(bottom);
@@ -143,7 +147,7 @@ public class Main extends Application {
         search.setOnAction(handler);
 
         stage.setTitle("AVL Tree");
-        Scene scene = new Scene(bPane,1200,750);
+        Scene scene = new Scene(bPane,1100,600);
         stage.setScene(scene);
         stage.show();
     }
