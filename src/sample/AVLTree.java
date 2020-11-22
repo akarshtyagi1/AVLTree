@@ -29,6 +29,7 @@ public class AVLTree {
     Label inOrderLabel= new Label();
     Label preOrderLabel= new Label();
     Label postOrderLabel= new Label();
+    Label heightLabel= new Label();
 
     //constructor
     public AVLTree() {
@@ -56,6 +57,10 @@ public class AVLTree {
         return node.height;
     }
 
+    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node));
+        detailsPane.getChildren().addAll(heightLabel);
+    }
     //rotation of certain branches to balance the tree
     AVLTreeNode rotateRight(AVLTreeNode node,Pane center) {
         if (node == null) return node;
@@ -361,7 +366,7 @@ public class AVLTree {
         System.out.print(node.data + " ");
         preOrder.add(node.data);
 
-        /* then recur on left sutree */
+        /* then recur on left subtree */
         printPreorder(node.left, pane);
 
         /* now recur on right subtree */

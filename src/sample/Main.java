@@ -67,19 +67,18 @@ public class Main extends Application {
         center.setBackground(cbackground);
         bPane.setCenter(center);
 
-        Pane pane1= new Pane();
-        Label label= new Label();
-        BackgroundFill cFill1= new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY);
+        Pane detailsPane= new Pane();
+        BackgroundFill cFill1= new BackgroundFill(Color.BLANCHEDALMOND, CornerRadii.EMPTY,Insets.EMPTY);
         Background oBackground= new Background(cFill1);
-        pane1.setBackground(oBackground);
-//        pane1.setPrefHeight(200);
-//        pane1.setPrefWidth(50);
-        Button getOrder= new Button("Show Order");
-        getOrder.setOnAction(e->{
-            tree.addOrderToPane(pane1);
-        });
-        pane1.getChildren().addAll(getOrder,label);
-//        center.getChildren().addAll(pane1);
+        detailsPane.setBackground(oBackground);
+//        detailsPane.setPrefHeight(200);
+//        detailsPane.setPrefWidth(50);
+//        Button getOrder= new Button("Show Order");
+//        getOrder.setOnAction(e->{
+//            tree.addOrderToPane(detailsPane);
+//        });
+//        detailsPane.getChildren().addAll(label);
+//        center.getChildren().addAll(detailsPane);
 
 
 
@@ -99,7 +98,7 @@ public class Main extends Application {
         Button search = new Button("Search");
         Button delete = new Button("Delete");
         bBox.getChildren().addAll(keyValue,insert,search,delete);
-        bottom.getChildren().addAll(bBox, pane1);
+        bottom.getChildren().addAll(bBox, detailsPane);
         bPane.setBottom(bottom);
 
 
@@ -109,14 +108,17 @@ public class Main extends Application {
               tree.insert(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
+              tree.addHeightToDetailPane(tree.root, detailsPane);
           }else if(e.getSource() == delete){
               tree.delete(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
+              tree.addHeightToDetailPane(tree.root, detailsPane);
           }else if(e.getSource() == search){
               if(tree.search(tree.root,key) == null){
                   System.out.println(key + " not Found");
                   tree.addOrderToPane(orderPane);
+                  tree.addHeightToDetailPane(tree.root, detailsPane);
               }
           }
             keyValue.clear();
