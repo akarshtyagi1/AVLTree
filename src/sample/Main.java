@@ -33,9 +33,9 @@ public class Main extends Application {
         Pane orderPane= new Pane();
         orderPane.setMinWidth(150);
         Label orders= new Label("Orders");
+        orders.translateXProperty().bind(left.widthProperty().divide(3));
         orderPane.getChildren().addAll(orders);
         left.getChildren().addAll(orderPane);
-
         left.setSpacing(200);
 
 
@@ -124,12 +124,9 @@ public class Main extends Application {
             keyValue.clear();
         };
 
-
         insert.setOnAction(handler);
         delete.setOnAction(handler);
         search.setOnAction(handler);
-
-
 
         stage.setTitle("AVL Tree");
         Scene scene = new Scene(bPane,800,600);
