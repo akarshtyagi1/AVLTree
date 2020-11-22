@@ -49,7 +49,7 @@ public class AVLTree {
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
         return node.height;
     }
-
+//adding height to pane
     void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
         heightLabel.setText("Height of the Tree: "+ updateHeight(node));
         detailsPane.getChildren().addAll(heightLabel);
