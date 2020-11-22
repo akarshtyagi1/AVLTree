@@ -122,12 +122,9 @@ public class Main extends Application {
             keyValue.clear();
         };
 
-
         insert.setOnAction(handler);
         delete.setOnAction(handler);
         search.setOnAction(handler);
-
-
 
         stage.setTitle("AVL Tree");
         Scene scene = new Scene(bPane,800,600);

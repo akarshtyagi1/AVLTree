@@ -92,7 +92,7 @@ public class AVLTree {
 //        beta.line.setEndX(beta.line.getStartX());
 //        beta.line.setEndY(beta.line.getStartY());
 
-        node.circle.centerXProperty().bind(beta.circle.centerXProperty().add(100 + node.height*10));
+        node.circle.centerXProperty().bind(beta.circle.centerXProperty().add(100 + node.height*40));
         node.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
         node.line.startXProperty().bind(beta.circle.centerXProperty());
         node.line.startYProperty().bind(beta.circle.centerYProperty());
@@ -104,7 +104,7 @@ public class AVLTree {
 //        node.line.setEndY(node.circle.getCenterY());
 
         if(t2 != null){
-            t2.circle.centerXProperty().bind(node.circle.centerXProperty().subtract(100 - t2.height+10));
+            t2.circle.centerXProperty().bind(node.circle.centerXProperty().subtract(100 - t2.height+40));
             t2.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
             t2.line.startXProperty().bind(node.circle.centerXProperty());
             t2.line.startYProperty().bind(node.circle.centerYProperty());
@@ -166,7 +166,7 @@ public class AVLTree {
 //        beta.line.setEndX(beta.line.getStartX());
 //        beta.line.setEndY(beta.line.getStartY());
 
-        node.circle.centerXProperty().bind(beta.circle.centerXProperty().subtract(100 + node.height*10));
+        node.circle.centerXProperty().bind(beta.circle.centerXProperty().subtract(100 + node.height*40));
         node.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
         node.line.startXProperty().bind(beta.circle.centerXProperty());
         node.line.startYProperty().bind(beta.circle.centerYProperty());
@@ -178,7 +178,7 @@ public class AVLTree {
 //        node.line.setEndY(node.circle.getCenterY());
 
         if(t2 != null){
-             t2.circle.centerXProperty().bind(node.circle.centerXProperty().add(100 + t2.height*10));
+             t2.circle.centerXProperty().bind(node.circle.centerXProperty().add(100 + t2.height*40));
              t2.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
              t2.line.startXProperty().bind(node.circle.centerXProperty());
              t2.line.startYProperty().bind(node.circle.centerYProperty());
@@ -234,15 +234,44 @@ public class AVLTree {
         if (node == null) return null;
 
         if (key < node.data) {
-            node.left = delete(node,node.left, key,center);
+            node.left = delete(node, node.left, key,center);
         } else if (key > node.data) {
-            node.right = delete(node,node.right, key,center);
+            node.right = delete(node, node.right, key,center);
         } else {
             if (node.left == null) {
                 node.deleteNodeFromTree(center);
+                if(p_Node != node){
+                    System.out.println("one");
+                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(100 + node.height*40));
+                    node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+                    node.right.line.startXProperty().bind(p_Node.circle.centerXProperty());
+                    node.right.line.startYProperty().bind(p_Node.circle.centerYProperty());
+                }else{
+                    System.out.println("two");
+                    node.right.circle.centerXProperty().bind(center.widthProperty().divide(2));
+                    node.right.circle.centerYProperty().unbind();
+                    node.right.circle.setCenterY(60);
+                    node.right.line.startXProperty().bind(node.right.circle.centerXProperty());
+                    node.right.line.startYProperty().bind(node.right.circle.centerYProperty());
+                }
+
                 node = node.right;
             } else if (node.right == null) {
                 node.deleteNodeFromTree(center);
+                if(p_Node != node){
+                    System.out.println("one");
+                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(100 + node.height*40));
+                    node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+                    node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
+                    node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
+                }else{
+                    System.out.println("two");
+                    node.left.circle.centerXProperty().bind(center.widthProperty().divide(2));
+                    node.left.circle.centerYProperty().unbind();
+                    node.left.circle.setCenterY(60);
+                    node.left.line.startXProperty().bind(node.left.circle.centerXProperty());
+                    node.left.line.startYProperty().bind(node.left.circle.centerYProperty());
+                }
                 node = node.left;
             } else {
                 int inorderSuccessorValue = getMinValue(node.right);
@@ -280,7 +309,6 @@ public class AVLTree {
 
         if (node == null) {
             AVLTreeNode newNode = new AVLTreeNode(key);
-            System.out.println("\n"+newNode.data+" coords, x: "+xCord+ " y: "+yCord+" node's height: "+ newNode.height);
             newNode.addNodeToTree(p_Node,center,xCord,yCord,p_xCord,p_yCord,key);
             return newNode;
         }
@@ -293,17 +321,17 @@ public class AVLTree {
             p_xCord = xCord;
             p_yCord = yCord;
             yCord += 60f;
-            xCord -= (100f + updateHeight(node)*10);
+            xCord -= (100f + updateHeight(node)*40);
             System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
-            node.left = insert(node,node.left, key,center,xCord,yCord,p_xCord,p_yCord);
+            node.left = insert( node, node.left, key, center, xCord, yCord, p_xCord, p_yCord);
         }
         else if (key > node.data) {
             p_xCord = xCord;
             p_yCord = yCord;
             yCord += 60f;
-            xCord += (100f + updateHeight(node)*10);
-            System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
-            node.right = insert(node,node.right, key,center,xCord,yCord,p_xCord,p_yCord);
+            xCord += ( 100f + updateHeight(node)*40 );
+            System.out.println( "Height of " + node.data + " is: " + updateHeight(node));
+            node.right = insert( node, node.right, key, center, xCord, yCord, p_xCord, p_yCord);
         }
         else {
             return node;
@@ -316,16 +344,16 @@ public class AVLTree {
             if (key < node.left.data) {
                 node = rotateRight(p_Node,node,center);
             } else {
-                node.left = rotateLeft(p_Node,node.left,center);
-                node = rotateRight(p_Node,node,center);
+                node.left = rotateLeft( p_Node, node.left, center);
+                node = rotateRight( p_Node, node,center);
             }
         }
         else if (balance < -1) {
             if (key > node.right.data) {
-                node = rotateLeft(p_Node,node,center);
+                node = rotateLeft( p_Node, node, center);
             } else {
-                node.right = rotateRight(p_Node,node.right,center);
-                node = rotateLeft(p_Node,node,center);
+                node.right = rotateRight( p_Node, node.right, center);
+                node = rotateLeft( p_Node, node, center);
             }
         }
         return node;
@@ -333,7 +361,7 @@ public class AVLTree {
 
     public void insert(int key,Pane center) {
         AVLTreeNode p_Node = this.root;
-        root = insert(p_Node ,this.root, key,center,(float) center.getWidth()/2,this.y,(float) center.getWidth()/2,60);
+        root = insert(p_Node ,this.root, key,center,(float) center.getWidth()/2, this.y,(float) center.getWidth()/2,60);
         this.x= (float)center.getWidth();
         this.y = 60f;
         return;
@@ -490,7 +518,6 @@ public class AVLTree {
 
             this.value.setText(num);
             this.value.setFont(Font.font(null, FontWeight.BOLD,10));
-
             this.value.translateXProperty().bind(this.circle.centerXProperty());
             this.value.translateYProperty().bind(this.circle.centerYProperty());System.out.println(p_xCord);
 
@@ -503,19 +530,15 @@ public class AVLTree {
             }
             this.line.endXProperty().bind(this.circle.centerXProperty());
             this.line.endYProperty().bind(this.circle.centerYProperty());
-
+            this.line.setViewOrder(10);
 //            value.setTranslateX(xCord - 5.5);
 //            value.setTranslateY(yCord - 7);
 //            this.line = new Line(p_xCord,p_yCord,this.circle.getCenterX(),this.circle.getCenterY());
-            this.line.setViewOrder(10);
-//            System.out.print("\n" + this.data + " X-endPoints: " + this.line.endXProperty() + );
             center.getChildren().addAll(this.line,this.circle,this.value);
         }
 
-
         public void deleteNodeFromTree(Pane center){
-            center.getChildren().removeAll(this.circle,this.value);
+            center.getChildren().removeAll(this.line,this.circle,this.value);
         }
-
     }
 }
