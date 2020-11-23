@@ -53,9 +53,23 @@ public class AVLTree {
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
         return node.height;
     }
+//    counting the total nodes in the tree
+    int count(AVLTreeNode tree)
+    {
+        int c =  1;             //Node itself should be counted
+        if (tree ==null)
+            return 0;
+        else
+        {
+            c += count(tree.left);
+            c += count(tree.right);
+            return c;
+        }
+    }
+
 //adding height to pane
     void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
-        heightLabel.setText("Height of the Tree: "+ updateHeight(node));
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal Nodes in the Tree:"+ count(node));
         heightLabel.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
         detailsPane.getChildren().addAll(heightLabel);
 
