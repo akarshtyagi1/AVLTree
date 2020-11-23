@@ -67,19 +67,18 @@ public class AVLTree {
         }
     }
 
+
     //adding height to pane
     void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane, Text prompt){
         if(flag == 1){
             detailsPane.getChildren().remove(heightLabel);
         }
-        Text command= new Text(prompt.getText());
-        prompt.getClass(); // samajh nahi aa rha
-        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal nodes in the Tree:"+ count(node)+ command.getText());
-        System.out.println(command);
+
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal nodes in the Tree:"+ count(node));
         heightLabel.setStyle("-fx-font: 25px Tahoma; "
                 + "-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);"
                 + "-fx-stroke: black; -fx-stroke-width: 1;");
-        detailsPane.getChildren().addAll(heightLabel, command);
+        detailsPane.getChildren().addAll(heightLabel);
         flag = 1;
     }
 
@@ -91,6 +90,7 @@ public class AVLTree {
         AVLTreeNode beta = node.left;
         AVLTreeNode t2 = beta.right;
         AVLTreeNode alpha = node.right;
+        AVLTreeNode key = beta.left;
 
         beta.right = node;
         node.left = t2;
@@ -110,6 +110,7 @@ public class AVLTree {
             float sep = (float) (p_Node.circle.getCenterY()+60)/60;
             float diff = (float) (node.circle.getCenterX() - p_Node.circle.getCenterX());
             float m = diff/(Math.abs(diff));
+            System.out.println("right " + m);
             beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(m*(300f/sep - (sep-1)*15)));
             beta.line.startXProperty().bind(p_Node.circle.centerXProperty());
             beta.line.startYProperty().bind(p_Node.circle.centerYProperty());
@@ -128,6 +129,18 @@ public class AVLTree {
             t2.line.startXProperty().bind(node.circle.centerXProperty());
             t2.line.startYProperty().bind(node.circle.centerYProperty());
         }
+
+        if( key != null){
+            sep = (float) (beta.circle.getCenterY() + 60)/60;
+            key.circle.centerXProperty().bind(beta.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+            key.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
+        }
+
+        if(alpha != null){
+            sep = (float) (node.circle.getCenterY() + 60)/60;
+            alpha.circle.centerXProperty().bind(node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
+            alpha.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
+        }
         return beta;
     }
 
@@ -138,7 +151,7 @@ public class AVLTree {
         AVLTreeNode beta = node.right;
         AVLTreeNode t2 = beta.left;
         AVLTreeNode alpha = node.left;
-
+        AVLTreeNode key = beta.right;
         beta.left = node;
         node.right = t2;
 
@@ -157,6 +170,7 @@ public class AVLTree {
             float sep = (float) (p_Node.circle.getCenterY()+60)/60;
             float diff = (float) (node.circle.getCenterX() - p_Node.circle.getCenterX());
             float m = diff/(Math.abs(diff));
+            System.out.println("left  " + m);
             beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(m*(300f/sep - (sep-1)*15)));
             beta.line.startXProperty().bind(p_Node.circle.centerXProperty());
             beta.line.startYProperty().bind(p_Node.circle.centerYProperty());
@@ -168,12 +182,24 @@ public class AVLTree {
         node.line.startXProperty().bind(beta.circle.centerXProperty());
         node.line.startYProperty().bind(beta.circle.centerYProperty());
 
+        if(alpha != null){
+            sep = (float) (node.circle.getCenterY() + 60)/60;
+            alpha.circle.centerXProperty().bind(node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+            alpha.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
+        }
+
         if(t2 != null){
              t2.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
              sep = (float) (node.circle.getCenterY()+60)/60;
              t2.circle.centerXProperty().bind(node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
              t2.line.startXProperty().bind(node.circle.centerXProperty());
              t2.line.startYProperty().bind(node.circle.centerYProperty());
+        }
+
+        if(key != null){
+            sep = (float) (beta.circle.getCenterY() + 60)/60;
+            key.circle.centerXProperty().bind(beta.circle.centerXProperty().add(300f/sep - (sep-1)*15));
+            key.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
         }
         return beta;
     }

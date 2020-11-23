@@ -39,9 +39,12 @@ public class Main extends Application {
         BackgroundFill oFill= new BackgroundFill(Color.rgb(232,232,232), CornerRadii.EMPTY,Insets.EMPTY);
         Background oBackground= new Background(oFill);
         orderPane.setBackground(oBackground);
-//        Label orders= new Label("Orders");
+
         Text text = new Text("Orders");
-        text.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
+        text.setStyle("-fx-font: 25px Tahoma; " +
+                "-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);" +
+                "-fx-stroke: black;" +
+                " -fx-stroke-width: 1;");
         text.setX(40); text.setY(30); text.setFill(Color.rgb(145,66,94));
         text.setStrokeWidth(2);
 //        orders.translateXProperty().bind(left.widthProperty().divide(3));
