@@ -280,7 +280,12 @@ public class AVLTree {
                 if(p_Node != node && node.right != null){
                     node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     float sep = (float) (p_Node.circle.getCenterY()+60)/60;
-                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+
+                    if(p_Node.data < node.right.data)
+                        node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
+                    else
+                        node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+
                     node.right.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.right.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.right != null){
@@ -296,7 +301,12 @@ public class AVLTree {
                 if(p_Node != node && node.left != null){
                     node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     float sep = (float) (p_Node.circle.getCenterY()+60)/60;
-                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
+
+                    if(p_Node.data > node.left.data)
+                        node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+                    else
+                        node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+
                     node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.left != null){
