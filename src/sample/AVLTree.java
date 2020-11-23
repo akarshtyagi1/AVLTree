@@ -1,6 +1,11 @@
 package sample;
 
+import javafx.animation.FillTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -10,11 +15,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Translate;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AVLTree {
-
     AVLTreeNode root;
     float x=600;
     float y=60;
@@ -238,9 +245,17 @@ public class AVLTree {
                 search(node.right, key);
             }else if (key==node.data){
                 //if the data is found so then return it
-                node.circle.setFill(Color.RED);
-                node.value.setTextFill(Color.WHITE);
-                System.out.println("\nFound " +key+ " at tree-height= "+ node.height);
+                FillTransition ft = new FillTransition(Duration.seconds(2),node.circle);
+
+                ScaleTransition st = new ScaleTransition(Duration.seconds(0.5), node.circle);
+                st.setByY(0.5);
+                st.setByX(0.5);
+                st.setCycleCount(2);
+                st.setAutoReverse(true);
+                st.play();
+                ft.setFromValue(Color.GREENYELLOW);
+                ft.setToValue(Color.WHITE);
+                ft.play();
                 return node;
             }
         return null;

@@ -119,7 +119,6 @@ public class Main extends Application {
         bottom.getChildren().addAll(bBox, detailsPane);
         bPane.setBottom(bottom);
 
-
         EventHandler<ActionEvent> handler = e ->{
             int key = Integer.parseInt(keyValue.getText());
           if(e.getSource() == insert){
