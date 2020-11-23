@@ -26,8 +26,6 @@ public class AVLTree {
     Text postOrderLabel= new Text();
     Label heightLabel= new Label();
 
-
-
     //constructor
     public AVLTree() {
         this.root = new AVLTreeNode(-1);
@@ -53,13 +51,23 @@ public class AVLTree {
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
         return node.height;
     }
-//adding height to pane
-    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
-        heightLabel.setText("Height of the Tree: "+ updateHeight(node));
-        heightLabel.setStyle("-fx-font: 25px Tahoma; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);-fx-stroke: black; -fx-stroke-width: 1;");
-        detailsPane.getChildren().addAll(heightLabel);
 
+    int flag = 0;
+
+    //adding height to pane
+    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
+        if(flag == 1){
+            detailsPane.getChildren().remove(heightLabel);
+        }
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node));
+        heightLabel.setStyle("-fx-font: 25px Tahoma; "
+                + "-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);"
+                + "-fx-stroke: black; -fx-stroke-width: 1;");
+        detailsPane.getChildren().addAll(heightLabel);
+        flag = 1;
     }
+
+
     //rotation of certain branches to balance the tree
     AVLTreeNode rotateRight(AVLTreeNode p_Node,AVLTreeNode node,Pane center) {
         if (node == null) return null;
@@ -74,17 +82,6 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
-        //        if(beta.left != null){
-//            beta.left.circle.setCenterX(beta.circle.getCenterX());
-//            beta.left.circle.setCenterY(beta.circle.getCenterY());
-//            //            beta.left.value.setTranslateX(beta.value.getTranslateX());
-////            beta.left.value.setTranslateY(beta.value.getTranslateY());
-////            beta.left.line.setStartX(node.circle.getCenterX());
-////            beta.left.line.setStartY(node.circle.getCenterY());
-////            beta.left.line.setEndX(beta.circle.getCenterX());
-////            beta.left.line.setEndY(beta.circle.getCenterY(
-//        }
-
         if(p_Node == node){
             beta.circle.centerXProperty().unbind();
             beta.circle.centerYProperty().unbind();
@@ -93,30 +90,25 @@ public class AVLTree {
             beta.line.startXProperty().bind(beta.circle.centerXProperty());
             beta.line.startYProperty().bind(beta.circle.centerYProperty());
         }else{
-            beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(node.circle.getCenterX() - p_Node.circle.getCenterX()));
             beta.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+            float sep = (float) (p_Node.circle.getCenterY()+60)/60;
+            float diff = (float) (node.circle.getCenterX() - p_Node.circle.getCenterX());
+            float m = diff/(Math.abs(diff));
+            beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(m*(300f/sep - (sep-1)*15)));
             beta.line.startXProperty().bind(p_Node.circle.centerXProperty());
             beta.line.startYProperty().bind(p_Node.circle.centerYProperty());
         }
-        //        beta.value.setTranslateX(node.value.getTranslateX());
-//        beta.value.setTranslateY(node.value.getTranslateY());
-//        beta.line.setEndX(beta.line.getStartX());
-//        beta.line.setEndY(beta.line.getStartY());
 
-        node.circle.centerXProperty().bind(beta.circle.centerXProperty().add(100 + node.height*40));
         node.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
+        float sep = (float) (beta.circle.getCenterY()+60)/60;
+        node.circle.centerXProperty().bind(beta.circle.centerXProperty().add(300f/sep - (sep-1)*15));
         node.line.startXProperty().bind(beta.circle.centerXProperty());
         node.line.startYProperty().bind(beta.circle.centerYProperty());
-        //        node.value.setTranslateY(node.circle.getCenterY());
-//        node.value.setTranslateX(node.circle.getCenterX());
-//        node.line.setStartX(beta.circle.getCenterX());
-//        node.line.setStartY(beta.circle.getCenterY());
-//        node.line.setEndX(node.circle.getCenterX());
-//        node.line.setEndY(node.circle.getCenterY());
 
         if(t2 != null){
-            t2.circle.centerXProperty().bind(node.circle.centerXProperty().subtract(100 - t2.height+40));
             t2.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
+            sep = (float) (node.circle.getCenterY()+60)/60;
+            t2.circle.centerXProperty().bind(node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
             t2.line.startXProperty().bind(node.circle.centerXProperty());
             t2.line.startYProperty().bind(node.circle.centerYProperty());
         }
@@ -137,28 +129,6 @@ public class AVLTree {
         updateHeight(node);
         updateHeight(beta);
 
-        //        if(beta.right != null){
-//            beta.right.circle.setCenterX(beta.circle.getCenterX());
-//            beta.right.circle.setCenterY(beta.circle.getCenterY());
-//            //            beta.right.value.setTranslateX(beta.value.getTranslateX());
-////            beta.right.value.setTranslateY(beta.value.getTranslateY());
-////            beta.right.line.setStartX(node.circle.getCenterX());
-////            beta.right.line.setStartY(node.circle.getCenterY());
-////            beta.right.line.setEndX(beta.circle.getCenterX());
-////            beta.right.line.setEndY(beta.circle.getCenterY());
-//        }
-//
-//        if(alpha != null){
-//            alpha.circle.setCenterX(alpha.circle.getCenterX() - 100 - alpha.height*10);
-//            alpha.circle.setCenterY(alpha.circle.getCenterY() + 60f);
-//            //            alpha.value.setTranslateX(alpha.circle.getCenterX());
-////            alpha.value.setTranslateY(alpha.circle.getCenterY());
-////            alpha.line.setStartX(node.circle.getCenterX());
-////            alpha.line.setStartY(node.circle.getCenterY());
-////            alpha.line.setEndX(alpha.circle.getCenterX());
-////            alpha.line.setEndY(alpha.circle.getCenterY());
-//        }
-
         if(p_Node == node){
             beta.circle.centerXProperty().unbind();
             beta.circle.centerYProperty().unbind();
@@ -167,42 +137,31 @@ public class AVLTree {
             beta.line.startXProperty().bind(beta.circle.centerXProperty());
             beta.line.startYProperty().bind(beta.circle.centerYProperty());
         }else{
-            beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(node.circle.getCenterX() - p_Node.circle.getCenterX()));
             beta.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+            float sep = (float) (p_Node.circle.getCenterY()+60)/60;
+            float diff = (float) (node.circle.getCenterX() - p_Node.circle.getCenterX());
+            float m = diff/(Math.abs(diff));
+            beta.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(m*(300f/sep - (sep-1)*15)));
             beta.line.startXProperty().bind(p_Node.circle.centerXProperty());
             beta.line.startYProperty().bind(p_Node.circle.centerYProperty());
         }
-        //beta.value.setTranslateX(node.value.getTranslateX());
-//        beta.value.setTranslateY(node.value.getTranslateY());
-//        beta.line.setEndX(beta.line.getStartX());
-//        beta.line.setEndY(beta.line.getStartY());
 
-        node.circle.centerXProperty().bind(beta.circle.centerXProperty().subtract(100 + node.height*40));
         node.circle.centerYProperty().bind(beta.circle.centerYProperty().add(60));
+        float sep = (float)(beta.circle.getCenterY()+60)/60;
+        node.circle.centerXProperty().bind(beta.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
         node.line.startXProperty().bind(beta.circle.centerXProperty());
         node.line.startYProperty().bind(beta.circle.centerYProperty());
-        //        node.value.setTranslateY(node.circle.getCenterY());
-//        node.value.setTranslateX(node.circle.getCenterX());
-//        node.line.setStartX(beta.circle.getCenterX());
-//        node.line.setStartY(beta.circle.getCenterY());
-//        node.line.setEndX(node.circle.getCenterX());
-//        node.line.setEndY(node.circle.getCenterY());
 
         if(t2 != null){
-             t2.circle.centerXProperty().bind(node.circle.centerXProperty().add(100 + t2.height*40));
              t2.circle.centerYProperty().bind(node.circle.centerYProperty().add(60));
+             sep = (float) (node.circle.getCenterY()+60)/60;
+             t2.circle.centerXProperty().bind(node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
              t2.line.startXProperty().bind(node.circle.centerXProperty());
              t2.line.startYProperty().bind(node.circle.centerYProperty());
-             //            t2.value.setTranslateX(t2.circle.getCenterX());
-//            t2.value.setTranslateY(t2.circle.getCenterY());
-//            t2.line.setStartX(node.circle.getCenterX());
-//            t2.line.setStartY(node.circle.getCenterY());
-//            t2.line.setEndX(t2.circle.getCenterX());
-//            t2.line.setEndY(t2.circle.getCenterY());
         }
-
         return beta;
     }
+
 
     //returns the balance height
     int getBalance(AVLTreeNode node) {
@@ -214,6 +173,7 @@ public class AVLTree {
         return balance;
     }
 
+
     //returns the min value present in the tree
     int getMinValue(AVLTreeNode node) {
         if (node == null) return Integer.MIN_VALUE;
@@ -222,16 +182,20 @@ public class AVLTree {
         return getMinValue(node.left);
     }
 
+
     public AVLTreeNode search(AVLTreeNode node, int key){
         if (node==null) {
             System.out.println("Tree is empty!");
             return null;
         }
-            if (key<node.data){                          //when the key is smaller than the present node value
+            if (key<node.data){
+                //when the key is smaller than the present node value
                  search(node.left, key);
-            }else if (key>node.data){                    //when the key value is bigger than the present node value
+            }else if (key>node.data){
+                //when the key value is bigger than the present node value
                 search(node.right, key);
-            }else if (key==node.data){                   //if the data is found so then return it
+            }else if (key==node.data){
+                //if the data is found so then return it
                 node.circle.setFill(Color.RED);
                 node.value.setTextFill(Color.WHITE);
                 System.out.println("\nFound " +key+ " at tree-height= "+ node.height);
@@ -239,6 +203,7 @@ public class AVLTree {
             }
         return null;
     }
+
 
     public AVLTreeNode delete(AVLTreeNode p_Node,AVLTreeNode node, int key,Pane center) {
 
@@ -252,31 +217,28 @@ public class AVLTree {
             if (node.left == null) {
                 node.deleteNodeFromTree(center);
                 if(p_Node != node && node.right != null){
-                    System.out.println("one");
-                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(100 + node.height*40));
                     node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+                    float sep = (float) (p_Node.circle.getCenterY()+60)/60;
+                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
                     node.right.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.right.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.right != null){
-                    System.out.println("two");
                     node.right.circle.centerXProperty().bind(center.widthProperty().divide(2));
                     node.right.circle.centerYProperty().unbind();
                     node.right.circle.setCenterY(60);
                     node.right.line.startXProperty().bind(node.right.circle.centerXProperty());
                     node.right.line.startYProperty().bind(node.right.circle.centerYProperty());
                 }
-
                 node = node.right;
             } else if (node.right == null) {
                 node.deleteNodeFromTree(center);
                 if(p_Node != node && node.left != null){
-                    System.out.println("one");
-                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(100 + node.height*40));
                     node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
+                    float sep = (float) (p_Node.circle.getCenterY()+60)/60;
+                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
                     node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.left != null){
-                    System.out.println("two");
                     node.left.circle.centerXProperty().bind(center.widthProperty().divide(2));
                     node.left.circle.centerYProperty().unbind();
                     node.left.circle.setCenterY(60);
@@ -316,6 +278,7 @@ public class AVLTree {
         return node;
     }
 
+
     public AVLTreeNode insert(AVLTreeNode p_Node, AVLTreeNode node, int key, Pane center,float xCord,float yCord,float p_xCord,float p_yCord) {
 
         if (node == null) {
@@ -332,16 +295,16 @@ public class AVLTree {
             p_xCord = xCord;
             p_yCord = yCord;
             yCord += 60f;
-            xCord -= ( 100f + updateHeight(node)*40);
-            System.out.println("Height of "+ node.data+ " is: "+ updateHeight(node));
+            float sep = yCord/60;
+            xCord -= (300f/sep - (sep-1)*15);
             node.left = insert( node, node.left, key, center, xCord, yCord, p_xCord, p_yCord);
         }
         else if (key > node.data) {
             p_xCord = xCord;
             p_yCord = yCord;
             yCord += 60f;
-            xCord += ( 100f + updateHeight(node)*40 );
-            System.out.println( "Height of " + node.data + " is: " + updateHeight(node));
+            float sep = yCord/60;
+            xCord += (300f/sep - (sep-1)*15);
             node.right = insert( node, node.right, key, center, xCord, yCord, p_xCord, p_yCord);
         }
         else {
@@ -370,6 +333,7 @@ public class AVLTree {
         return node;
     }
 
+
     public void insert(int key,Pane center) {
         AVLTreeNode p_Node = this.root;
         root = insert(p_Node ,this.root, key,center,(float) center.getWidth()/2, this.y,(float) center.getWidth()/2,60);
@@ -378,11 +342,13 @@ public class AVLTree {
         return;
     }
 
+
     public void delete(int key,Pane center) {
         AVLTreeNode p_Node = this.root;
         root = delete(p_Node,this.root, key,center);
         return;
     }
+
 
     public void printTreeLevelOrder() {
         if (root == null) return;
@@ -411,6 +377,7 @@ public class AVLTree {
         }
     }
 
+
     /* Given a binary tree, print its nodes according to the
       "bottom-up" postorder traversal. */
     void printPostorder(AVLTreeNode node, Pane pane)
@@ -429,6 +396,7 @@ public class AVLTree {
         postOrder.add(node.data);
     }
 
+
     /* Given a binary tree, print its nodes in inorder*/
     void printInorder(AVLTreeNode node, Pane pane)
     {
@@ -445,6 +413,7 @@ public class AVLTree {
         /* now recur on right child */
         printInorder(node.right, pane);
     }
+
 
     /* Given a binary tree, print its nodes in preorder*/
     void printPreorder(AVLTreeNode node, Pane pane)
@@ -464,7 +433,7 @@ public class AVLTree {
     }
 
 
-   public void addOrderToPane(Pane pane){
+    public void addOrderToPane(Pane pane){
        VBox orderVBox= new VBox();
        printPostorder(root,pane);
        printInorder(root,pane);
