@@ -121,26 +121,27 @@ public class Main extends Application {
 
         EventHandler<ActionEvent> handler = e ->{
             int key = Integer.parseInt(keyValue.getText());
+
           if(e.getSource() == insert){
               keyValue.clear();
               tree.insert(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
-              tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
+
           }else if(e.getSource() == delete){
               keyValue.clear();
               tree.delete(key,center, detailsPane);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
-              tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
+
           }else if(e.getSource() == search){
               keyValue.clear();
               if(tree.search(tree.root,key) == null){
                   System.out.println(key + " not Found");
                   tree.addOrderToPane(orderPane);
-                  tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
               }
           }
+            tree.addHeightToDetailPane(tree.root, detailsPane);
             keyValue.clear();
         };
 

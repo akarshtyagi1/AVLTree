@@ -34,6 +34,7 @@ public class AVLTree {
     Label heightLabel= new Label();
     int flag = 0;
 
+
     //constructor
     public AVLTree() {
         this.root = new AVLTreeNode(-1);
@@ -52,6 +53,11 @@ public class AVLTree {
         return node.height;
     }
 
+    String updateStatus(AVLTreeNode node){
+        if(node==null || node.data==-1) return "\t\t\tEmpty Tree!";
+
+        return  "   ";
+    }
     //updates the height after a certain operation is performed
     int updateHeight(AVLTreeNode node) {
         if (node == null || node.data==-1) return 0;
@@ -73,19 +79,17 @@ public class AVLTree {
             return c;
         }
     }
-
-
     //adding height to pane
-    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane, Text prompt){
+    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
         if(flag == 1){
             detailsPane.getChildren().remove(heightLabel);
         }
 
-        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal nodes in the Tree:"+ count(node));
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal nodes in the Tree:"+ count(node)+ updateStatus(node));
         heightLabel.setStyle("-fx-font: 25px Tahoma; "
                 + "-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);"
                 + "-fx-stroke: black; -fx-stroke-width: 1;");
-        detailsPane.getChildren().addAll(heightLabel);
+        detailsPane.getChildren().add(heightLabel);
         flag = 1;
     }
 
@@ -233,6 +237,7 @@ public class AVLTree {
 
 
     public AVLTreeNode search(AVLTreeNode node, int key){
+        AVLTreeNode searchNode= new AVLTreeNode(key);
         if (node==null) {
             System.out.println("Tree is empty!");
             return null;
@@ -263,11 +268,11 @@ public class AVLTree {
 
 
     public AVLTreeNode delete(AVLTreeNode p_Node,AVLTreeNode node, int key,Pane center, Pane detailsPane) {
-        Text emptyPrompt=new Text("");
+        Label emptyPrompt=new Label("");
         if (node == null)
         {
          emptyPrompt.setText("Tree is Empty!");
-         addHeightToDetailPane(node, detailsPane, emptyPrompt);
+         addHeightToDetailPane(node, detailsPane);
             return null;
         }
         if (key < node.data) {
@@ -305,7 +310,7 @@ public class AVLTree {
                     if(p_Node.data > node.left.data)
                         node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
                     else
-                        node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+                        node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
 
                     node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
