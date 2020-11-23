@@ -124,19 +124,19 @@ public class Main extends Application {
               tree.insert(key,center);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
-              tree.addHeightToDetailPane(tree.root, detailsPane);
+              tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
           }else if(e.getSource() == delete){
               keyValue.clear();
-              tree.delete(key,center);
+              tree.delete(key,center, detailsPane);
               tree.printTreeLevelOrder();
               tree.addOrderToPane(orderPane);
-              tree.addHeightToDetailPane(tree.root, detailsPane);
+              tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
           }else if(e.getSource() == search){
               keyValue.clear();
               if(tree.search(tree.root,key) == null){
                   System.out.println(key + " not Found");
                   tree.addOrderToPane(orderPane);
-                  tree.addHeightToDetailPane(tree.root, detailsPane);
+                  tree.addHeightToDetailPane(tree.root, detailsPane,new Text(""));
               }
           }
             keyValue.clear();

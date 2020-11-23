@@ -25,6 +25,7 @@ public class AVLTree {
     Text preOrderLabel= new Text();
     Text postOrderLabel= new Text();
     Label heightLabel= new Label();
+    int flag = 0;
 
     //constructor
     public AVLTree() {
@@ -46,24 +47,39 @@ public class AVLTree {
 
     //updates the height after a certain operation is performed
     int updateHeight(AVLTreeNode node) {
-        if (node == null) return 0;
+        if (node == null || node.data==-1) return 0;
 
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
         return node.height;
     }
 
-    int flag = 0;
+    //    counting the total nodes in the tree
+    int count(AVLTreeNode tree)
+    {
+        int c =  1;             //Node itself should be counted
+        if (tree ==null)
+            return 0;
+        else
+        {
+            c += count(tree.left);
+            c += count(tree.right);
+            return c;
+        }
+    }
 
     //adding height to pane
-    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane){
+    void addHeightToDetailPane(AVLTreeNode node,Pane detailsPane, Text prompt){
         if(flag == 1){
             detailsPane.getChildren().remove(heightLabel);
         }
-        heightLabel.setText("Height of the Tree: "+ updateHeight(node));
+        Text command= new Text(prompt.getText());
+        prompt.getClass(); // samajh nahi aa rha
+        heightLabel.setText("Height of the Tree: "+ updateHeight(node)+ "\t\t\tTotal nodes in the Tree:"+ count(node)+ command.getText());
+        System.out.println(command);
         heightLabel.setStyle("-fx-font: 25px Tahoma; "
                 + "-fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);"
                 + "-fx-stroke: black; -fx-stroke-width: 1;");
-        detailsPane.getChildren().addAll(heightLabel);
+        detailsPane.getChildren().addAll(heightLabel, command);
         flag = 1;
     }
 
@@ -205,21 +221,25 @@ public class AVLTree {
     }
 
 
-    public AVLTreeNode delete(AVLTreeNode p_Node,AVLTreeNode node, int key,Pane center) {
-
-        if (node == null) return null;
-
+    public AVLTreeNode delete(AVLTreeNode p_Node,AVLTreeNode node, int key,Pane center, Pane detailsPane) {
+        Text emptyPrompt=new Text("");
+        if (node == null)
+        {
+         emptyPrompt.setText("Tree is Empty!");
+         addHeightToDetailPane(node, detailsPane, emptyPrompt);
+            return null;
+        }
         if (key < node.data) {
-            node.left = delete(node, node.left, key,center);
+            node.left = delete(node, node.left, key,center, detailsPane);
         } else if (key > node.data) {
-            node.right = delete(node, node.right, key,center);
+            node.right = delete(node, node.right, key,center, detailsPane);
         } else {
             if (node.left == null) {
                 node.deleteNodeFromTree(center);
                 if(p_Node != node && node.right != null){
                     node.right.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     float sep = (float) (p_Node.circle.getCenterY()+60)/60;
-                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
+                    node.right.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
                     node.right.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.right.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.right != null){
@@ -235,7 +255,7 @@ public class AVLTree {
                 if(p_Node != node && node.left != null){
                     node.left.circle.centerYProperty().bind(p_Node.circle.centerYProperty().add(60));
                     float sep = (float) (p_Node.circle.getCenterY()+60)/60;
-                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().subtract(300f/sep - (sep-1)*15));
+                    node.left.circle.centerXProperty().bind(p_Node.circle.centerXProperty().add(300f/sep - (sep-1)*15));
                     node.left.line.startXProperty().bind(p_Node.circle.centerXProperty());
                     node.left.line.startYProperty().bind(p_Node.circle.centerYProperty());
                 }else if(node.left != null){
@@ -250,7 +270,7 @@ public class AVLTree {
                 int inorderSuccessorValue = getMinValue(node.right);
                 node.data = inorderSuccessorValue;
                 node.value.setText(Integer.toString(inorderSuccessorValue));
-                node.right = delete(node,node.right, inorderSuccessorValue,center);
+                node.right = delete(node,node.right, inorderSuccessorValue,center, detailsPane);
             }
         }
         if (node == null) {
@@ -343,9 +363,9 @@ public class AVLTree {
     }
 
 
-    public void delete(int key,Pane center) {
+    public void delete(int key,Pane center, Pane detailsPane) {
         AVLTreeNode p_Node = this.root;
-        root = delete(p_Node,this.root, key,center);
+        root = delete(p_Node,this.root, key,center,detailsPane);
         return;
     }
 
@@ -382,7 +402,7 @@ public class AVLTree {
       "bottom-up" postorder traversal. */
     void printPostorder(AVLTreeNode node, Pane pane)
     {
-        if (node == null)
+        if (node == null || node.data==-1)
             return;
 
         // first recur on left subtree
@@ -400,7 +420,7 @@ public class AVLTree {
     /* Given a binary tree, print its nodes in inorder*/
     void printInorder(AVLTreeNode node, Pane pane)
     {
-        if (node == null)
+        if (node == null || node.data==-1)
             return;
 
         /* first recur on left child */
@@ -418,7 +438,7 @@ public class AVLTree {
     /* Given a binary tree, print its nodes in preorder*/
     void printPreorder(AVLTreeNode node, Pane pane)
     {
-        if (node == null)
+        if (node == null || node.data==-1)
             return;
 
         /* first print data of node */
