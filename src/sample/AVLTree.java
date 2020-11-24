@@ -2,10 +2,7 @@ package sample;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ScaleTransition;
-import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -15,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -34,6 +30,7 @@ public class AVLTree {
     Label heightLabel= new Label();
     int flag = 0;
 
+    //----------------------------------------------------- https://github.com/akarshtyagi1/AVLTree ----------------------------------------------//
 
     //constructor
     public AVLTree() {
@@ -250,9 +247,8 @@ public class AVLTree {
                 search(node.right, key);
             }else if (key==node.data){
                 //if the data is found so then return it
-                FillTransition ft = new FillTransition(Duration.seconds(2),node.circle);
-
-                ScaleTransition st = new ScaleTransition(Duration.seconds(0.5), node.circle);
+                FillTransition ft = new FillTransition(Duration.seconds(3),node.circle);
+                ScaleTransition st = new ScaleTransition(Duration.seconds(3), node.circle);
                 st.setByY(0.5);
                 st.setByX(0.5);
                 st.setCycleCount(2);

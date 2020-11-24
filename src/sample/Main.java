@@ -52,11 +52,6 @@ public class Main extends Application {
         left.getChildren().addAll(orderPane);
         left.setSpacing(200);
 
-
-//        public void showOrderPane(Pane pane){
-//            tree.addOrderToPane(orderPane);
-//        }
-
         pane.setPrefHeight(70);
         pane.setMaxWidth(99999.999d);
         BackgroundFill bFill = new BackgroundFill(Color.rgb(48,71,94), CornerRadii.EMPTY,Insets.EMPTY);
@@ -85,15 +80,6 @@ public class Main extends Application {
         BackgroundFill cFill1= new BackgroundFill(Color.BLANCHEDALMOND, CornerRadii.EMPTY,Insets.EMPTY);
         Background dBackground= new Background(cFill1);
         detailsPane.setBackground(dBackground);
-//        detailsPane.setPrefHeight(200);
-//        detailsPane.setPrefWidth(50);
-//        Button getOrder= new Button("Show Order");
-//        getOrder.setOnAction(e->{
-//            tree.addOrderToPane(detailsPane);
-//        });
-//        detailsPane.getChildren().addAll(label);
-//        center.getChildren().addAll(detailsPane);
-
 
 
         //bottomBar
